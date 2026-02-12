@@ -52,10 +52,10 @@ const ProductsSection = () => {
             {/* Image */}
             <div className="relative overflow-hidden bg-muted/30">
               <img
-                src={vitaminCImg}
+
                 alt="Vitamin C Serum - luxury skincare product"
                 className="w-full h-full object-cover min-h-[400px] hover:scale-105 transition-transform duration-700"
-                loading="lazy" />
+                loading="lazy" src="/lovable-uploads/42d7bbf4-1c4e-4f9e-9be2-96489f626997.png" />
 
               <div className="absolute top-4 left-4 bg-primary text-primary-foreground text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-sm">
                 Bestseller
