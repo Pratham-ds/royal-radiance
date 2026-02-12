@@ -26,7 +26,7 @@ const Navbar = () => {
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
           <span className="font-heading text-2xl font-bold gold-gradient-text tracking-widest">
-            ROYALÉ
+            MEDIEVAL KEEPS
           </span>
         </Link>
 
