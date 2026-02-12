@@ -8,10 +8,10 @@ const Footer = () => {
           {/* Brand */}
           <div className="md:col-span-1">
             <span className="font-heading text-xl font-bold gold-gradient-text tracking-widest">
-              ROYALÉ
+              MEDIEVAL KEEPS
             </span>
             <p className="text-xs text-muted-foreground mt-3 leading-relaxed">
-              Luxury skincare rooted in royal botanical traditions. Crafted for radiance, designed for royalty.
+              Luxury skincare rooted in medieval botanical traditions. Crafted for radiance, designed for royalty.
             </p>
           </div>
 
@@ -55,7 +55,7 @@ const Footer = () => {
 
         <div className="divider-gold mb-6" />
         <p className="text-center text-[10px] text-muted-foreground tracking-widest uppercase">
-          © 2026 Royalé Skincare. All rights reserved.
+          © 2026 Medieval Keeps. All rights reserved.
         </p>
       </div>
     </footer>
