@@ -85,8 +85,8 @@ const ProductsSection = () => {
               </div>
 
               <p className="text-foreground/60 font-body text-sm leading-relaxed mb-6">
-                Infused with 20% L-ascorbic acid and rare botanical extracts from ancient royal gardens.
-                This potent elixir brightens, firms, and protects — revealing your skin's natural luminosity.
+                Infused with Ethyl ascorbic acid and rare botanical extracts from ancient royal gardens. This potent elixir brightens, firms, gentle on your skin and protects — revealing your skin's natural glow.
+              
               </p>
 
               <p className="font-heading text-3xl font-bold text-primary mb-6">
