@@ -10,17 +10,17 @@ const AboutSection = () => {
         </h2>
         <div className="divider-gold max-w-xs mx-auto mb-8" />
         <p className="font-body text-foreground/50 leading-relaxed text-sm md:text-base mb-6">
-          Medival Keeps draws from ancient botanical manuscripts and royal apothecary traditions, 
-          blending time-honored ingredients with cutting-edge dermatological science. Each serum 
-          is a testament to centuries of beauty wisdom — meticulously formulated, ethically sourced, 
-          and crafted for those who demand nothing less than excellence.
+          Medival draws from ancient botanical manuscripts and royal apothecary traditions, blending time-honored ingredients with cutting-edge dermatological science. Each serum is a testament to centuries of beauty wisdom — meticulously formulated, ethically sourced, and crafted for those who demand nothing less than excellence.
+        
+
+
         </p>
         <p className="font-accent text-primary/60 italic text-lg">
           "Where heritage meets innovation, true beauty reigns."
         </p>
       </div>
-    </section>
-  );
+    </section>);
+
 };
 
 export default AboutSection;
