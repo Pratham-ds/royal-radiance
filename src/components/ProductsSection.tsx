@@ -90,7 +90,7 @@ const ProductsSection = () => {
               </p>
 
               <p className="font-heading text-3xl font-bold text-primary mb-6">
-                $72<span className="text-base text-muted-foreground font-body">.00</span>
+                200<span className="text-base text-muted-foreground font-body">.00</span>
               </p>
 
               {/* Urgency */}
