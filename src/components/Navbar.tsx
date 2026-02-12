@@ -41,7 +41,7 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Links */}
-        <div className="hidden items-center gap-8 md:flex flex-col">
+        <div className="hidden md:flex items-center gap-8">
           <a href="#products" className="text-sm font-body tracking-wider text-foreground/70 hover:text-primary transition-colors duration-300 uppercase">
             Collections
           </a>
