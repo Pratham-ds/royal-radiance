@@ -10,11 +10,11 @@ import niacinamideImg from "@/assets/niacinamide-serum.jpg";
 import salicylicImg from "@/assets/salicylic-serum.jpg";
 
 const outOfStockProducts = [
-  { id: "retinol", name: "Retinol Serum", price: 68, image: retinolImg, desc: "Advanced age-defying night renewal" },
-  { id: "hyaluronic", name: "Hyaluronic Acid Serum", price: 58, image: hyaluronicImg, desc: "Deep hydration & plumping complex" },
-  { id: "niacinamide", name: "Niacinamide Serum", price: 52, image: niacinamideImg, desc: "Pore-refining radiance booster" },
-  { id: "salicylic", name: "Salicylic Acid Serum", price: 55, image: salicylicImg, desc: "Clarifying & smoothing treatment" },
-];
+{ id: "retinol", name: "Retinol Serum", price: 68, image: retinolImg, desc: "Advanced age-defying night renewal" },
+{ id: "hyaluronic", name: "Hyaluronic Acid Serum", price: 58, image: hyaluronicImg, desc: "Deep hydration & plumping complex" },
+{ id: "niacinamide", name: "Niacinamide Serum", price: 52, image: niacinamideImg, desc: "Pore-refining radiance booster" },
+{ id: "salicylic", name: "Salicylic Acid Serum", price: 55, image: salicylicImg, desc: "Clarifying & smoothing treatment" }];
+
 
 const ProductsSection = () => {
   const [quantity, setQuantity] = useState(1);
@@ -26,7 +26,7 @@ const ProductsSection = () => {
         id: "vitamin-c",
         name: "Vitamin C Serum",
         price: 72,
-        image: vitaminCImg,
+        image: vitaminCImg
       });
     }
     setQuantity(1);
@@ -55,8 +55,8 @@ const ProductsSection = () => {
                 src={vitaminCImg}
                 alt="Vitamin C Serum - luxury skincare product"
                 className="w-full h-full object-cover min-h-[400px] hover:scale-105 transition-transform duration-700"
-                loading="lazy"
-              />
+                loading="lazy" />
+
               <div className="absolute top-4 left-4 bg-primary text-primary-foreground text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-sm">
                 Bestseller
               </div>
@@ -74,12 +74,12 @@ const ProductsSection = () => {
               {/* Rating */}
               <div className="flex items-center gap-2 mb-4">
                 <div className="flex gap-0.5">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`w-4 h-4 ${i < 4 ? "fill-primary text-primary" : "fill-primary/30 text-primary/30"}`}
-                    />
-                  ))}
+                  {[...Array(5)].map((_, i) =>
+                  <Star
+                    key={i}
+                    className={`w-4 h-4 ${i < 4 ? "fill-primary text-primary" : "fill-primary/30 text-primary/30"}`} />
+
+                  )}
                 </div>
                 <span className="text-xs text-muted-foreground">(4.8 · 127 Reviews)</span>
               </div>
@@ -108,8 +108,8 @@ const ProductsSection = () => {
                 <div className="flex items-center border border-border rounded-sm">
                   <button
                     onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                    className="px-3 py-2 text-foreground/60 hover:text-primary transition-colors"
-                  >
+                    className="px-3 py-2 text-foreground/60 hover:text-primary transition-colors">
+
                     <Minus className="w-4 h-4" />
                   </button>
                   <span className="px-4 py-2 font-heading text-sm font-bold min-w-[40px] text-center">
@@ -117,16 +117,16 @@ const ProductsSection = () => {
                   </span>
                   <button
                     onClick={() => setQuantity((q) => Math.min(10, q + 1))}
-                    className="px-3 py-2 text-foreground/60 hover:text-primary transition-colors"
-                  >
+                    className="px-3 py-2 text-foreground/60 hover:text-primary transition-colors">
+
                     <Plus className="w-4 h-4" />
                   </button>
                 </div>
 
                 <button
                   onClick={handleAddToCart}
-                  className="btn-luxury flex-1 flex items-center justify-center gap-2 py-3 rounded-sm text-sm tracking-[0.15em]"
-                >
+                  className="btn-luxury flex-1 flex items-center justify-center gap-2 py-3 rounded-sm text-sm tracking-[0.15em]">
+
                   <ShoppingBag className="w-4 h-4" />
                   Add to Cart
                 </button>
@@ -138,22 +138,22 @@ const ProductsSection = () => {
         {/* Out of Stock Products */}
         <div className="mb-8">
           <h3 className="font-heading text-xl text-foreground/50 text-center mb-8">
-            Coming Soon
+            ​More Products  
           </h3>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
-          {outOfStockProducts.map((product) => (
-            <div
-              key={product.id}
-              className="glass-card rounded-lg overflow-hidden opacity-60 grayscale-[40%] group"
-            >
+          {outOfStockProducts.map((product) =>
+          <div
+            key={product.id}
+            className="glass-card rounded-lg overflow-hidden opacity-60 grayscale-[40%] group">
+
               <div className="relative overflow-hidden aspect-square">
                 <img
-                  src={product.image}
-                  alt={`${product.name} - currently out of stock`}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
+                src={product.image}
+                alt={`${product.name} - currently out of stock`}
+                className="w-full h-full object-cover"
+                loading="lazy" />
+
                 <div className="absolute inset-0 bg-background/40" />
                 <div className="absolute top-3 right-3 bg-muted text-muted-foreground text-[9px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-sm border border-border/50">
                   Out of Stock
@@ -169,19 +169,19 @@ const ProductsSection = () => {
                     ${product.price}
                   </span>
                   <button
-                    disabled
-                    className="text-xs font-body tracking-wider uppercase text-muted-foreground border border-border/30 px-3 py-1.5 rounded-sm cursor-not-allowed"
-                  >
+                  disabled
+                  className="text-xs font-body tracking-wider uppercase text-muted-foreground border border-border/30 px-3 py-1.5 rounded-sm cursor-not-allowed">
+
                     Sold Out
                   </button>
                 </div>
               </div>
             </div>
-          ))}
+          )}
         </div>
       </div>
-    </section>
-  );
+    </section>);
+
 };
 
 export default ProductsSection;
