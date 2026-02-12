@@ -35,7 +35,7 @@ const Login = () => {
 
           </Link>
           <p className="font-accent text-xs tracking-[0.3em] uppercase text-muted-foreground mt-2">
-            Welcome Back, Your Majesty
+          
           </p>
         </div>
 
