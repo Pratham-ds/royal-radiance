@@ -16,7 +16,7 @@ const fallbackImages: Record<string, string> = {
   "Retinol Serum": retinolImg,
   "Hyaluronic Acid Serum": hyaluronicImg,
   "Niacinamide Serum": niacinamideImg,
-  "Salicylic Acid Serum": salicylicImg,
+  "Salicylic Acid Serum": salicylicImg
 };
 
 const ProductsSection = () => {
@@ -27,8 +27,8 @@ const ProductsSection = () => {
   const featuredProduct = products?.find((p) => p.status === "in_stock");
   const otherProducts = products?.filter((p) => p.id !== featuredProduct?.id) ?? [];
 
-  const getImage = (product: { name: string; image_url: string | null }) =>
-    product.image_url || fallbackImages[product.name] || "/placeholder.svg";
+  const getImage = (product: {name: string;image_url: string | null;}) =>
+  product.image_url || fallbackImages[product.name] || "/placeholder.svg";
 
   const handleAddToCart = () => {
     if (!featuredProduct) return;
@@ -37,7 +37,7 @@ const ProductsSection = () => {
         id: featuredProduct.id,
         name: featuredProduct.name,
         price: Number(featuredProduct.price),
-        image: getImage(featuredProduct),
+        image: getImage(featuredProduct)
       });
     }
     setQuantity(1);
@@ -49,15 +49,15 @@ const ProductsSection = () => {
         <div className="container mx-auto text-center">
           <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
         </div>
-      </section>
-    );
+      </section>);
+
   }
 
   return (
     <section id="products" className="py-24 px-6">
       <div className="container mx-auto">
         <div className="text-center mb-16">
-          <p className="font-accent text-sm tracking-[0.4em] uppercase text-primary/70 mb-3">The Royal Collection</p>
+          <p className="font-accent text-sm tracking-[0.4em] uppercase text-primary/70 mb-3">​  </p>
           <h2 className="font-heading text-3xl md:text-5xl font-bold text-foreground mb-4">
             Our <span className="gold-gradient-text">Serums</span>
           </h2>
@@ -65,16 +65,16 @@ const ProductsSection = () => {
         </div>
 
         {/* Featured Product */}
-        {featuredProduct && (
-          <div className="glass-card rounded-lg overflow-hidden mb-20 max-w-5xl mx-auto gold-glow">
+        {featuredProduct &&
+        <div className="glass-card rounded-lg overflow-hidden mb-20 max-w-5xl mx-auto gold-glow">
             <div className="grid md:grid-cols-2 gap-0">
               <div className="relative overflow-hidden bg-muted/30">
                 <img
-                  src={getImage(featuredProduct)}
-                  alt={`${featuredProduct.name} - luxury skincare product`}
-                  className="w-full h-full object-cover min-h-[400px] hover:scale-105 transition-transform duration-700"
-                  loading="lazy"
-                />
+                src={getImage(featuredProduct)}
+                alt={`${featuredProduct.name} - luxury skincare product`}
+                className="w-full h-full object-cover min-h-[400px] hover:scale-105 transition-transform duration-700"
+                loading="lazy" />
+
                 <div className="absolute top-4 left-4 bg-primary text-primary-foreground text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-sm">
                   Bestseller
                 </div>
@@ -84,9 +84,9 @@ const ProductsSection = () => {
                 <h3 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-3">{featuredProduct.name}</h3>
                 <div className="flex items-center gap-2 mb-4">
                   <div className="flex gap-0.5">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className={`w-4 h-4 ${i < 4 ? "fill-primary text-primary" : "fill-primary/30 text-primary/30"}`} />
-                    ))}
+                    {[...Array(5)].map((_, i) =>
+                  <Star key={i} className={`w-4 h-4 ${i < 4 ? "fill-primary text-primary" : "fill-primary/30 text-primary/30"}`} />
+                  )}
                   </div>
                   <span className="text-xs text-muted-foreground">(4.8 · 127 Reviews)</span>
                 </div>
@@ -95,12 +95,12 @@ const ProductsSection = () => {
                   {Number(featuredProduct.price).toFixed(0)}<span className="text-base text-muted-foreground font-body">.00</span>
                 </p>
 
-                {featuredProduct.urgency_message && (
-                  <div className="flex items-center gap-2 mb-4">
+                {featuredProduct.urgency_message &&
+              <div className="flex items-center gap-2 mb-4">
                     <AlertTriangle className="w-4 h-4 text-primary animate-pulse-glow" />
                     <span className="text-xs text-primary font-semibold tracking-wider uppercase">{featuredProduct.urgency_message}</span>
                   </div>
-                )}
+              }
 
                 {featuredProduct.countdown_minutes && <CountdownTimer minutes={featuredProduct.countdown_minutes} />}
 
@@ -115,10 +115,10 @@ const ProductsSection = () => {
                     </button>
                   </div>
                   <button
-                    onClick={handleAddToCart}
-                    disabled={featuredProduct.stock_quantity <= 0}
-                    className="btn-luxury flex-1 flex items-center justify-center gap-2 py-3 rounded-sm text-sm tracking-[0.15em] disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
+                  onClick={handleAddToCart}
+                  disabled={featuredProduct.stock_quantity <= 0}
+                  className="btn-luxury flex-1 flex items-center justify-center gap-2 py-3 rounded-sm text-sm tracking-[0.15em] disabled:opacity-50 disabled:cursor-not-allowed">
+
                     <ShoppingBag className="w-4 h-4" />
                     {featuredProduct.stock_quantity <= 0 ? "Sold Out" : "Add to Cart"}
                   </button>
@@ -126,19 +126,19 @@ const ProductsSection = () => {
               </div>
             </div>
           </div>
-        )}
+        }
 
         {/* Other Products */}
-        {otherProducts.length > 0 && (
-          <>
+        {otherProducts.length > 0 &&
+        <>
             <div className="mb-8">
               <h3 className="font-heading text-xl text-foreground/50 text-center mb-8">More Products</h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
               {otherProducts.map((product) => {
-                const isAvailable = product.status === "in_stock" && product.stock_quantity > 0;
-                return (
-                  <div key={product.id} className={`glass-card rounded-lg overflow-hidden ${!isAvailable ? "opacity-60 grayscale-[40%]" : ""} group`}>
+              const isAvailable = product.status === "in_stock" && product.stock_quantity > 0;
+              return (
+                <div key={product.id} className={`glass-card rounded-lg overflow-hidden ${!isAvailable ? "opacity-60 grayscale-[40%]" : ""} group`}>
                     <div className="relative overflow-hidden aspect-square">
                       <img src={getImage(product)} alt={`${product.name}`} className="w-full h-full object-cover" loading="lazy" />
                       {!isAvailable && <div className="absolute inset-0 bg-background/40" />}
@@ -156,15 +156,15 @@ const ProductsSection = () => {
                         </button>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  </div>);
+
+            })}
             </div>
           </>
-        )}
+        }
       </div>
-    </section>
-  );
+    </section>);
+
 };
 
 export default ProductsSection;
