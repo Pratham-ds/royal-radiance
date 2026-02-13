@@ -14,16 +14,182 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      orders: {
+        Row: {
+          created_at: string | null
+          customer_email: string
+          customer_name: string
+          id: string
+          items: Json
+          shipping_address: string | null
+          status: Database["public"]["Enums"]["order_status"]
+          total: number
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          customer_email: string
+          customer_name: string
+          id?: string
+          items?: Json
+          shipping_address?: string | null
+          status?: Database["public"]["Enums"]["order_status"]
+          total?: number
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          customer_email?: string
+          customer_name?: string
+          id?: string
+          items?: Json
+          shipping_address?: string | null
+          status?: Database["public"]["Enums"]["order_status"]
+          total?: number
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      products: {
+        Row: {
+          countdown_minutes: number | null
+          created_at: string | null
+          description: string | null
+          id: string
+          image_url: string | null
+          name: string
+          price: number
+          status: Database["public"]["Enums"]["product_status"]
+          stock_quantity: number
+          updated_at: string | null
+          urgency_message: string | null
+        }
+        Insert: {
+          countdown_minutes?: number | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name: string
+          price?: number
+          status?: Database["public"]["Enums"]["product_status"]
+          stock_quantity?: number
+          updated_at?: string | null
+          urgency_message?: string | null
+        }
+        Update: {
+          countdown_minutes?: number | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name?: string
+          price?: number
+          status?: Database["public"]["Enums"]["product_status"]
+          stock_quantity?: number
+          updated_at?: string | null
+          urgency_message?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          blocked: boolean | null
+          created_at: string | null
+          full_name: string | null
+          id: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          blocked?: boolean | null
+          created_at?: string | null
+          full_name?: string | null
+          id?: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          blocked?: boolean | null
+          created_at?: string | null
+          full_name?: string | null
+          id?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          banner_text: string | null
+          countdown_minutes: number | null
+          discount_codes: Json | null
+          id: string
+          shipping_charge: number | null
+          updated_at: string | null
+          urgency_message: string | null
+        }
+        Insert: {
+          banner_text?: string | null
+          countdown_minutes?: number | null
+          discount_codes?: Json | null
+          id?: string
+          shipping_charge?: number | null
+          updated_at?: string | null
+          urgency_message?: string | null
+        }
+        Update: {
+          banner_text?: string | null
+          countdown_minutes?: number | null
+          discount_codes?: Json | null
+          id?: string
+          shipping_charge?: number | null
+          updated_at?: string | null
+          urgency_message?: string | null
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
+      order_status: "pending" | "shipped" | "delivered" | "cancelled"
+      product_status: "in_stock" | "out_of_stock" | "coming_soon"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +316,10 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+      order_status: ["pending", "shipped", "delivered", "cancelled"],
+      product_status: ["in_stock", "out_of_stock", "coming_soon"],
+    },
   },
 } as const
