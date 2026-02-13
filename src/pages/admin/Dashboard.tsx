@@ -54,7 +54,7 @@ const Dashboard = () => {
       {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatCard icon={ShoppingCart} label="Total Orders" value={orders?.length ?? 0} />
-        <StatCard icon={DollarSign} label="Revenue" value={`₹{totalRevenue.toFixed(2)}`} accent />
+        <StatCard icon={DollarSign} label="Revenue" value={`₹₹{totalRevenue.toFixed(2)}`} accent />
         <StatCard icon={Users} label="Customers" value={profiles?.length ?? 0} />
         <StatCard icon={Package} label="In Stock" value={inStockCount} />
       </div>
