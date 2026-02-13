@@ -57,7 +57,7 @@ const Login = () => {
       <div className="w-full max-w-md">
         <div className="text-center mb-10">
           <Link to="/" className="font-heading text-3xl font-bold gold-gradient-text tracking-widest">
-            MEDIEVAL
+            MEDIVAL
           </Link>
           
 
