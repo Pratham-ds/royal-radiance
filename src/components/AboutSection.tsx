@@ -6,11 +6,13 @@ const AboutSection = () => {
           Our Heritage
         </p>
         <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-6">
-          Born of <span className="gold-gradient-text">Royal Legacy</span>
+          Born of <span className="gold-gradient-text"> Legacy</span>
         </h2>
         <div className="divider-gold max-w-xs mx-auto mb-8" />
         <p className="font-body text-foreground/50 leading-relaxed text-sm md:text-base mb-6">
-          Medival draws from ancient botanical manuscripts and royal apothecary traditions, blending time-honored ingredients with cutting-edge dermatological science. Each serum is a testament to centuries of beauty wisdom — meticulously formulated, ethically sourced, and crafted for those who demand nothing less than excellence.
+          ​MEDIVAL believes that good skincare should be simple, honest, and effective.
+We combine trusted natural ingredients with modern skin science to create products that truly work.
+Every MEDIVAL product is carefully made using safe, well-researched ingredients in the right balance. We focus on quality, transparency, and ethical sourcing so you can feel confident about what you are putting on your skin.
         
 
 
@@ -19,8 +21,6 @@ const AboutSection = () => {
           "Where heritage meets innovation, true beauty reigns."
         </p>
       </div>
-    </section>);
-
-};
+    </section>);};
 
 export default AboutSection;
