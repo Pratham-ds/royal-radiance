@@ -1,32 +1,38 @@
 import { useState, useEffect } from "react";
 
-const FIFTEEN_MINUTES = 15 * 60;
+interface CountdownTimerProps {
+  minutes?: number;
+}
 
-const CountdownTimer = () => {
+const CountdownTimer = ({ minutes = 15 }: CountdownTimerProps) => {
+  const totalSeconds = minutes * 60;
+
   const [seconds, setSeconds] = useState(() => {
-    const saved = sessionStorage.getItem("countdown");
+    const key = `countdown_${minutes}`;
+    const saved = sessionStorage.getItem(key);
     if (saved) {
       const remaining = parseInt(saved) - Math.floor(Date.now() / 1000);
-      return remaining > 0 ? remaining : FIFTEEN_MINUTES;
+      return remaining > 0 ? remaining : totalSeconds;
     }
-    const end = Math.floor(Date.now() / 1000) + FIFTEEN_MINUTES;
-    sessionStorage.setItem("countdown", end.toString());
-    return FIFTEEN_MINUTES;
+    const end = Math.floor(Date.now() / 1000) + totalSeconds;
+    sessionStorage.setItem(key, end.toString());
+    return totalSeconds;
   });
 
   useEffect(() => {
+    const key = `countdown_${minutes}`;
     const interval = setInterval(() => {
       setSeconds((prev) => {
         if (prev <= 1) {
-          const end = Math.floor(Date.now() / 1000) + FIFTEEN_MINUTES;
-          sessionStorage.setItem("countdown", end.toString());
-          return FIFTEEN_MINUTES;
+          const end = Math.floor(Date.now() / 1000) + totalSeconds;
+          sessionStorage.setItem(key, end.toString());
+          return totalSeconds;
         }
         return prev - 1;
       });
     }, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [minutes, totalSeconds]);
 
   const mins = Math.floor(seconds / 60);
   const secs = seconds % 60;
@@ -42,9 +48,7 @@ const CountdownTimer = () => {
           {String(secs).padStart(2, "0")}
         </span>
       </div>
-      <span className="text-xs text-muted-foreground font-body uppercase tracking-wider">
-        Offer Ends
-      </span>
+      <span className="text-xs text-muted-foreground font-body uppercase tracking-wider">Offer Ends</span>
     </div>
   );
 };
