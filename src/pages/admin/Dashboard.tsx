@@ -3,9 +3,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { DollarSign, ShoppingCart, Users, Package, AlertTriangle, TrendingUp } from "lucide-react";
 
 const StatCard = ({ icon: Icon, label, value, accent = false }: { icon: any; label: string; value: string | number; accent?: boolean }) => (
-  <div className={`glass-card rounded-lg p-6 ${accent ? "gold-glow border-primary/30" : ""}`}>
+  <div className={`glass-card rounded-lg p-6 {accent ? "gold-glow border-primary/30" : ""}`}>
     <div className="flex items-center justify-between mb-3">
-      <Icon className={`w-5 h-5 ${accent ? "text-primary" : "text-muted-foreground"}`} />
+      <Icon className={`w-5 h-5 {accent ? "text-primary" : "text-muted-foreground"}`} />
       <span className="text-[10px] uppercase tracking-widest text-muted-foreground">{label}</span>
     </div>
     <p className={`font-heading text-2xl font-bold ${accent ? "text-primary" : "text-foreground"}`}>{value}</p>
@@ -48,13 +48,13 @@ const Dashboard = () => {
     <div>
       <div className="mb-8">
         <h1 className="font-heading text-3xl font-bold gold-gradient-text">Dashboard</h1>
-        <p className="text-sm text-muted-foreground mt-1">Welcome to Medieval Keeps Admin</p>
+        <p className="text-sm text-muted-foreground mt-1">Welcome to Medieval Admin</p>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatCard icon={ShoppingCart} label="Total Orders" value={orders?.length ?? 0} />
-        <StatCard icon={DollarSign} label="Revenue" value={`$${totalRevenue.toFixed(2)}`} accent />
+        <StatCard icon={DollarSign} label="Revenue" value={`₹${totalRevenue.toFixed(2)}`} accent />
         <StatCard icon={Users} label="Customers" value={profiles?.length ?? 0} />
         <StatCard icon={Package} label="In Stock" value={inStockCount} />
       </div>
