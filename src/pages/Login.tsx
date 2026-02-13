@@ -11,17 +11,17 @@ const Login = () => {
   const [fullName, setFullName] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-  const [errors, setErrors] = useState<{ email?: string; password?: string; fullName?: string }>({});
+  const [errors, setErrors] = useState<{email?: string;password?: string;fullName?: string;}>({});
   const [loading, setLoading] = useState(false);
   const { signIn, signUp } = useAuth();
   const navigate = useNavigate();
 
   const validate = () => {
     const errs: typeof errors = {};
-    if (!email.trim()) errs.email = "Email is required";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errs.email = "Enter a valid email";
-    if (!password) errs.password = "Password is required";
-    else if (password.length < 6) errs.password = "Minimum 6 characters";
+    if (!email.trim()) errs.email = "Email is required";else
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errs.email = "Enter a valid email";
+    if (!password) errs.password = "Password is required";else
+    if (password.length < 6) errs.password = "Minimum 6 characters";
     if (mode === "signup" && !fullName.trim()) errs.fullName = "Name is required";
     setErrors(errs);
     return Object.keys(errs).length === 0;
@@ -59,9 +59,9 @@ const Login = () => {
           <Link to="/" className="font-heading text-3xl font-bold gold-gradient-text tracking-widest">
             MEDIEVAL
           </Link>
-          <p className="font-accent text-xs tracking-[0.3em] uppercase text-muted-foreground mt-2">
-            {mode === "login" ? "Welcome Back, Your Majesty" : "Join the Kingdom"}
-          </p>
+          
+
+
         </div>
 
         <div className="glass-card rounded-lg p-8 md:p-10 gold-glow">
@@ -70,13 +70,13 @@ const Login = () => {
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-5">
-            {mode === "signup" && (
-              <div>
+            {mode === "signup" &&
+            <div>
                 <label className="block text-xs font-body tracking-wider uppercase text-foreground/60 mb-2">Full Name</label>
                 <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} className="w-full bg-muted/50 border border-border/50 rounded-sm px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all" placeholder="Your Name" />
                 {errors.fullName && <p className="text-xs text-destructive mt-1">{errors.fullName}</p>}
               </div>
-            )}
+            }
 
             <div>
               <label className="block text-xs font-body tracking-wider uppercase text-foreground/60 mb-2">Email Address</label>
@@ -95,15 +95,15 @@ const Login = () => {
               {errors.password && <p className="text-xs text-destructive mt-1">{errors.password}</p>}
             </div>
 
-            {mode === "login" && (
-              <div className="flex items-center justify-between">
+            {mode === "login" &&
+            <div className="flex items-center justify-between">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="w-3.5 h-3.5 rounded-sm border-border accent-primary" />
                   <span className="text-xs text-muted-foreground">Remember me</span>
                 </label>
                 <a href="#" className="text-xs text-primary hover:text-primary/80 transition-colors">Forgot Password?</a>
               </div>
-            )}
+            }
 
             <button type="submit" disabled={loading} className="btn-luxury w-full py-3.5 rounded-sm text-sm tracking-[0.2em] gold-glow disabled:opacity-50">
               {loading ? "Please wait..." : mode === "login" ? "Sign In" : "Create Account"}
@@ -112,14 +112,14 @@ const Login = () => {
 
           <p className="text-center text-xs text-muted-foreground mt-6">
             {mode === "login" ? "Don't have an account?" : "Already have an account?"}{" "}
-            <button onClick={() => { setMode(mode === "login" ? "signup" : "login"); setErrors({}); }} className="text-primary hover:text-primary/80 transition-colors font-semibold">
+            <button onClick={() => {setMode(mode === "login" ? "signup" : "login");setErrors({});}} className="text-primary hover:text-primary/80 transition-colors font-semibold">
               {mode === "login" ? "Create Account" : "Sign In"}
             </button>
           </p>
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 };
 
 export default Login;
