@@ -140,7 +140,7 @@ const ProductsSection = () => {
               return (
                 <div key={product.id} className={`glass-card rounded-lg overflow-hidden ${!isAvailable ? "opacity-60 grayscale-[40%]" : ""} group`}>
                     <div className="relative overflow-hidden aspect-square">
-                      <img src={getImage(product)} alt={`${product.name}`} className="w-full h-full object-cover" loading="lazy" />
+                      <img src={getImage(product)} alt={`{product.name}`} className="w-full h-full object-cover" loading="lazy" />
                       {!isAvailable && <div className="absolute inset-0 bg-background/40" />}
                       <div className="absolute top-3 right-3 bg-muted text-muted-foreground text-[9px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-sm border border-border/50">
                         {product.status === "coming_soon" ? "Coming Soon" : !isAvailable ? "Out of Stock" : "Available"}
@@ -150,7 +150,7 @@ const ProductsSection = () => {
                       <h4 className="font-heading text-base font-semibold text-foreground/60 mb-1">{product.name}</h4>
                       <p className="text-xs text-muted-foreground mb-3">{product.description}</p>
                       <div className="flex items-center justify-between">
-                        <span className="font-heading text-lg font-bold text-foreground/40">${Number(product.price).toFixed(0)}</span>
+                        <span className="font-heading text-lg font-bold text-foreground/40">{Number(product.price).toFixed(0)}</span>
                         <button disabled={!isAvailable} className="text-xs font-body tracking-wider uppercase text-muted-foreground border border-border/30 px-3 py-1.5 rounded-sm cursor-not-allowed">
                           {isAvailable ? "Add to Cart" : "Sold Out"}
                         </button>
