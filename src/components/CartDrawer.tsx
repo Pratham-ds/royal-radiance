@@ -36,7 +36,7 @@ const CartDrawer = () => {
 
       // Clear cart
       items.forEach((i) => removeFromCart(i.id));
-      toast({ title: "Order placed!", description: "Your royal order has been submitted." });
+      toast({ title: "Order placed!", description: "Your order has been submitted." });
       closeCart();
     } catch (e: any) {
       toast({ title: "Checkout failed", description: e.message, variant: "destructive" });
@@ -75,7 +75,7 @@ const CartDrawer = () => {
                   </div>
                   <div className="flex-1 min-w-0">
                     <h4 className="font-heading text-sm font-semibold truncate">{item.name}</h4>
-                    <p className="text-primary font-heading text-sm font-bold mt-1">${item.price.toFixed(2)}</p>
+                    <p className="text-primary font-heading text-sm font-bold mt-1">{item.price.toFixed(2)}</p>
                     <div className="flex items-center gap-3 mt-2">
                       <div className="flex items-center border border-border/50 rounded-sm">
                         <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="px-2 py-1 text-foreground/50 hover:text-primary transition-colors">
@@ -101,7 +101,7 @@ const CartDrawer = () => {
           <div className="border-t border-border/30 p-6">
             <div className="flex items-center justify-between mb-4">
               <span className="text-sm text-muted-foreground uppercase tracking-wider">Subtotal</span>
-              <span className="font-heading text-xl font-bold text-primary">${subtotal.toFixed(2)}</span>
+              <span className="font-heading text-xl font-bold text-primary">{subtotal.toFixed(2)}</span>
             </div>
             <button
               onClick={handleCheckout}
