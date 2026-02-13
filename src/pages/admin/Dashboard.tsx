@@ -8,7 +8,7 @@ const StatCard = ({ icon: Icon, label, value, accent = false }: { icon: any; lab
       <Icon className={`w-5 h-5 {accent ? "text-primary" : "text-muted-foreground"}`} />
       <span className="text-[10px] uppercase tracking-widest text-muted-foreground">{label}</span>
     </div>
-    <p className={`font-heading text-2xl font-bold ${accent ? "text-primary" : "text-foreground"}`}>{value}</p>
+    <p className={`font-heading text-2xl font-bold {accent ? "text-primary" : "text-foreground"}`}>{value}</p>
   </div>
 );
 
