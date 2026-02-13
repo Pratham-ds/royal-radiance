@@ -26,7 +26,7 @@ const Navbar = () => {
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "glass-card border-b border-border/30 py-3" : "bg-transparent py-5"}`}>
       <div className="container mx-auto flex items-center justify-between px-6">
         <Link to="/" className="flex items-center gap-2">
-          <span className="font-heading text-2xl font-bold gold-gradient-text tracking-widest">MEDIEVAL </span>
+          <span className="font-heading text-2xl font-bold gold-gradient-text tracking-widest">MEDIVAL </span>
         </Link>
 
         <div className="hidden md:flex items-center gap-8">

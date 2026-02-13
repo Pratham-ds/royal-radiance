@@ -7,8 +7,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
           {/* Brand */}
           <div className="md:col-span-1">
-            <span className="font-heading text-xl font-bold gold-gradient-text tracking-widest text-[#e3b84a]">
-              MEDIEVAL 
+            <span className="font-heading text-xl font-bold gold-gradient-text tracking-widest text-[#e3b84a]">MEDIVAL
+
             </span>
             <p className="text-xs text-muted-foreground mt-3 leading-relaxed">
               Luxury skincare rooted in medieval botanical traditions. Crafted for radiance, designed for royalty.
