@@ -21,6 +21,8 @@ export type Database = {
           customer_name: string
           id: string
           items: Json
+          payment_method: string | null
+          phone: string | null
           shipping_address: string | null
           status: Database["public"]["Enums"]["order_status"]
           total: number
@@ -33,6 +35,8 @@ export type Database = {
           customer_name: string
           id?: string
           items?: Json
+          payment_method?: string | null
+          phone?: string | null
           shipping_address?: string | null
           status?: Database["public"]["Enums"]["order_status"]
           total?: number
@@ -45,6 +49,8 @@ export type Database = {
           customer_name?: string
           id?: string
           items?: Json
+          payment_method?: string | null
+          phone?: string | null
           shipping_address?: string | null
           status?: Database["public"]["Enums"]["order_status"]
           total?: number

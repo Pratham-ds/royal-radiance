@@ -1,48 +1,16 @@
 import { X, Minus, Plus, ShoppingBag } from "lucide-react";
 import { useCart } from "@/context/CartContext";
-import { useAuth } from "@/context/AuthContext";
-import { supabase } from "@/integrations/supabase/client";
-import { toast } from "@/hooks/use-toast";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const CartDrawer = () => {
   const { items, isOpen, closeCart, removeFromCart, updateQuantity, subtotal } = useCart();
-  const { user } = useAuth();
   const navigate = useNavigate();
-  const [checkingOut, setCheckingOut] = useState(false);
 
   if (!isOpen) return null;
 
-  const handleCheckout = async () => {
-    if (!user) {
-      toast({ title: "Please sign in to checkout" });
-      closeCart();
-      navigate("/login");
-      return;
-    }
-
-    setCheckingOut(true);
-    try {
-      const { error } = await supabase.from("orders").insert({
-        user_id: user.id,
-        customer_name: user.user_metadata?.full_name || user.email || "Customer",
-        customer_email: user.email || "",
-        items: items.map((i) => ({ name: i.name, price: i.price, quantity: i.quantity })),
-        total: subtotal,
-        status: "pending" as const,
-      });
-      if (error) throw error;
-
-      // Clear cart
-      items.forEach((i) => removeFromCart(i.id));
-      toast({ title: "Order placed!", description: "Your order has been submitted." });
-      closeCart();
-    } catch (e: any) {
-      toast({ title: "Checkout failed", description: e.message, variant: "destructive" });
-    } finally {
-      setCheckingOut(false);
-    }
+  const handleCheckout = () => {
+    closeCart();
+    navigate("/checkout");
   };
 
   return (
@@ -75,7 +43,7 @@ const CartDrawer = () => {
                   </div>
                   <div className="flex-1 min-w-0">
                     <h4 className="font-heading text-sm font-semibold truncate">{item.name}</h4>
-                    <p className="text-primary font-heading text-sm font-bold mt-1">{item.price.toFixed(2)}</p>
+                    <p className="text-primary font-heading text-sm font-bold mt-1">₹{item.price.toFixed(0)}</p>
                     <div className="flex items-center gap-3 mt-2">
                       <div className="flex items-center border border-border/50 rounded-sm">
                         <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="px-2 py-1 text-foreground/50 hover:text-primary transition-colors">
@@ -101,14 +69,13 @@ const CartDrawer = () => {
           <div className="border-t border-border/30 p-6">
             <div className="flex items-center justify-between mb-4">
               <span className="text-sm text-muted-foreground uppercase tracking-wider">Subtotal</span>
-              <span className="font-heading text-xl font-bold text-primary">{subtotal.toFixed(2)}</span>
+              <span className="font-heading text-xl font-bold text-primary">₹{subtotal.toFixed(0)}</span>
             </div>
             <button
               onClick={handleCheckout}
-              disabled={checkingOut}
-              className="btn-luxury w-full py-3.5 rounded-sm text-sm tracking-[0.2em] gold-glow disabled:opacity-50"
+              className="btn-luxury w-full py-3.5 rounded-sm text-sm tracking-[0.2em] gold-glow"
             >
-              {checkingOut ? "Processing..." : "Proceed to Checkout"}
+              Proceed to Checkout
             </button>
             <p className="text-[10px] text-center text-muted-foreground mt-3 tracking-wider">
               Taxes & shipping calculated at checkout

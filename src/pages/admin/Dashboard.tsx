@@ -100,7 +100,7 @@ const Dashboard = () => {
                 {orders.slice(0, 10).map((order) => (
                   <tr key={order.id} className="border-b border-border/10">
                     <td className="py-3">{order.customer_name}</td>
-                    <td className="py-3 text-primary font-semibold">${Number(order.total).toFixed(2)}</td>
+                    <td className="py-3 text-primary font-semibold">₹{Number(order.total).toFixed(2)}</td>
                     <td className="py-3">
                       <span className={`text-xs px-2 py-1 rounded-full ${
                         order.status === "delivered" ? "bg-accent/20 text-accent-foreground" :

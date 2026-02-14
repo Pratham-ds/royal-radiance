@@ -103,7 +103,7 @@ const Products = () => {
         <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="w-full bg-muted/50 border border-border/50 rounded-sm px-3 py-2 text-sm text-foreground mt-1 focus:outline-none focus:border-primary/50" />
       </div>
       <div>
-        <label className="text-xs text-muted-foreground uppercase tracking-wider">Price </label>
+        <label className="text-xs text-muted-foreground uppercase tracking-wider">Price (₹)</label>
         <input type="number" step="0.01" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} className="w-full bg-muted/50 border border-border/50 rounded-sm px-3 py-2 text-sm text-foreground mt-1 focus:outline-none focus:border-primary/50" />
       </div>
       <div className="md:col-span-2">
@@ -187,7 +187,7 @@ const Products = () => {
                     )}
                     <div>
                       <h4 className="font-heading text-sm font-bold">{product.name}</h4>
-                      <p className="text-xs text-muted-foreground">${Number(product.price).toFixed(2)} · Stock: {product.stock_quantity}</p>
+                      <p className="text-xs text-muted-foreground">₹{Number(product.price).toFixed(2)} · Stock: {product.stock_quantity}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
