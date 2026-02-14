@@ -81,7 +81,7 @@ const SiteSettings = () => {
             <input type="number" value={form.countdown_minutes} onChange={(e) => setForm({ ...form, countdown_minutes: e.target.value })} className="w-full bg-muted/50 border border-border/50 rounded-sm px-3 py-2 text-sm text-foreground mt-1 focus:outline-none focus:border-primary/50" />
           </div>
           <div>
-            <label className="text-xs text-muted-foreground uppercase tracking-wider">Shipping Charge </label>
+            <label className="text-xs text-muted-foreground uppercase tracking-wider">Shipping Charge (₹)</label>
             <input type="number" step="0.01" value={form.shipping_charge} onChange={(e) => setForm({ ...form, shipping_charge: e.target.value })} className="w-full bg-muted/50 border border-border/50 rounded-sm px-3 py-2 text-sm text-foreground mt-1 focus:outline-none focus:border-primary/50" />
           </div>
         </div>

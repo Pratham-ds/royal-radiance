@@ -92,7 +92,7 @@ const ProductsSection = () => {
                 </div>
                 <p className="text-foreground/60 font-body text-sm leading-relaxed mb-6">{featuredProduct.description}</p>
                 <p className="font-heading text-3xl font-bold text-primary mb-6">
-                  {Number(featuredProduct.price).toFixed(0)}<span className="text-base text-muted-foreground font-body">.00</span>
+                  ₹{Number(featuredProduct.price).toFixed(0)}<span className="text-base text-muted-foreground font-body">.00</span>
                 </p>
 
                 {featuredProduct.urgency_message &&
@@ -150,7 +150,7 @@ const ProductsSection = () => {
                       <h4 className="font-heading text-base font-semibold text-foreground/60 mb-1">{product.name}</h4>
                       <p className="text-xs text-muted-foreground mb-3">{product.description}</p>
                       <div className="flex items-center justify-between">
-                        <span className="font-heading text-lg font-bold text-foreground/40">{Number(product.price).toFixed(0)}</span>
+                        <span className="font-heading text-lg font-bold text-foreground/40">₹{Number(product.price).toFixed(0)}</span>
                         <button disabled={!isAvailable} className="text-xs font-body tracking-wider uppercase text-muted-foreground border border-border/30 px-3 py-1.5 rounded-sm cursor-not-allowed">
                           {isAvailable ? "Add to Cart" : "Sold Out"}
                         </button>

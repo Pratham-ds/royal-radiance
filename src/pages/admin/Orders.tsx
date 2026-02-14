@@ -56,7 +56,7 @@ const Orders = () => {
             <div className="space-y-3 text-sm">
               <div className="flex justify-between"><span className="text-muted-foreground">Customer</span><span>{selectedOrder.customer_name}</span></div>
               <div className="flex justify-between"><span className="text-muted-foreground">Email</span><span>{selectedOrder.customer_email}</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Total</span><span className="text-primary font-bold">${Number(selectedOrder.total).toFixed(2)}</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Total</span><span className="text-primary font-bold">₹{Number(selectedOrder.total).toFixed(2)}</span></div>
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Status</span>
                 <select
@@ -82,7 +82,7 @@ const Orders = () => {
                 {Array.isArray(selectedOrder.items) && selectedOrder.items.map((item: any, i: number) => (
                   <div key={i} className="flex justify-between py-1">
                     <span>{item.name} × {item.quantity}</span>
-                    <span>${(item.price * item.quantity).toFixed(2)}</span>
+                    <span>₹{(item.price * item.quantity).toFixed(2)}</span>
                   </div>
                 ))}
               </div>
@@ -117,7 +117,7 @@ const Orders = () => {
                   <tr key={order.id} className="border-b border-border/10 hover:bg-muted/20 transition-colors">
                     <td className="p-4">{order.customer_name}</td>
                     <td className="p-4 text-muted-foreground">{order.customer_email}</td>
-                    <td className="p-4 text-primary font-semibold">${Number(order.total).toFixed(2)}</td>
+                    <td className="p-4 text-primary font-semibold">₹{Number(order.total).toFixed(2)}</td>
                     <td className="p-4">
                       <select
                         value={order.status}
