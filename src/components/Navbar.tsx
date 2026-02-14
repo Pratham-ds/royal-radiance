@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ShoppingBag, User, Menu, X, Crown, LogOut } from "lucide-react";
+import { ShoppingBag, User, Menu, X, Crown, LogOut, Package } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 
@@ -41,15 +41,20 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          {user ?
-          <button onClick={handleSignOut} className="text-foreground/70 hover:text-primary transition-colors duration-300" title="Sign Out">
-              <LogOut className="w-5 h-5" />
-            </button> :
-
-          <Link to="/login" className="text-foreground/70 hover:text-primary transition-colors duration-300">
+          {user ? (
+            <>
+              <Link to="/my-orders" className="text-foreground/70 hover:text-primary transition-colors duration-300" title="My Orders">
+                <Package className="w-5 h-5" />
+              </Link>
+              <button onClick={handleSignOut} className="text-foreground/70 hover:text-primary transition-colors duration-300" title="Sign Out">
+                <LogOut className="w-5 h-5" />
+              </button>
+            </>
+          ) : (
+            <Link to="/login" className="text-foreground/70 hover:text-primary transition-colors duration-300">
               <User className="w-5 h-5" />
             </Link>
-          }
+          )}
           <button onClick={openCart} className="relative text-foreground/70 hover:text-primary transition-colors duration-300">
             <ShoppingBag className="w-5 h-5" />
             {itemCount > 0 && <span className="absolute -top-2 -right-2 w-4 h-4 bg-primary text-primary-foreground text-[10px] font-bold rounded-full flex items-center justify-center">{itemCount}</span>}
