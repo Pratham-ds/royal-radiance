@@ -181,7 +181,33 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      public_site_settings: {
+        Row: {
+          banner_text: string | null
+          countdown_minutes: number | null
+          id: string | null
+          shipping_charge: number | null
+          updated_at: string | null
+          urgency_message: string | null
+        }
+        Insert: {
+          banner_text?: string | null
+          countdown_minutes?: number | null
+          id?: string | null
+          shipping_charge?: number | null
+          updated_at?: string | null
+          urgency_message?: string | null
+        }
+        Update: {
+          banner_text?: string | null
+          countdown_minutes?: number | null
+          id?: string | null
+          shipping_charge?: number | null
+          updated_at?: string | null
+          urgency_message?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       has_role: {
