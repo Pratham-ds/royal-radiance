@@ -34,7 +34,7 @@ export const useSiteSettings = () => {
     queryKey: ["site_settings"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("site_settings")
+        .from("public_site_settings" as any)
         .select("*")
         .limit(1)
         .maybeSingle();
