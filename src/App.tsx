@@ -19,6 +19,9 @@ import Customers from "./pages/admin/Customers";
 import SiteSettings from "./pages/admin/SiteSettings";
 import Checkout from "./pages/Checkout";
 import MyOrders from "./pages/MyOrders";
+import UserDashboard from "./pages/UserDashboard";
+import Testimonials from "./pages/admin/Testimonials";
+import AdminSubscriptions from "./pages/admin/Subscriptions";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +41,8 @@ const App = () => (
                 <Route path="orders" element={<Orders />} />
                 <Route path="customers" element={<Customers />} />
                 <Route path="settings" element={<SiteSettings />} />
+                <Route path="testimonials" element={<Testimonials />} />
+                <Route path="subscriptions" element={<AdminSubscriptions />} />
               </Route>
 
               {/* Public routes with navbar */}
@@ -50,6 +55,7 @@ const App = () => (
                     <Route path="/login" element={<Login />} />
                     <Route path="/checkout" element={<Checkout />} />
                     <Route path="/my-orders" element={<MyOrders />} />
+                    <Route path="/dashboard" element={<UserDashboard />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </>

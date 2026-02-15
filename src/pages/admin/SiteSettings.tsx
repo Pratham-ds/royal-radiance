@@ -12,6 +12,9 @@ const SiteSettings = () => {
     countdown_minutes: "15",
     shipping_charge: "0",
     discount_codes: "",
+    birthday_discount_enabled: true,
+    birthday_discount_percent: "15",
+    birthday_coupon_validity_days: "7",
   });
 
   const { data: settings } = useQuery({
@@ -31,6 +34,9 @@ const SiteSettings = () => {
         countdown_minutes: String(settings.countdown_minutes || 15),
         shipping_charge: String(settings.shipping_charge || 0),
         discount_codes: settings.discount_codes ? JSON.stringify(settings.discount_codes, null, 2) : "[]",
+        birthday_discount_enabled: (settings as any).birthday_discount_enabled ?? true,
+        birthday_discount_percent: String((settings as any).birthday_discount_percent || 15),
+        birthday_coupon_validity_days: String((settings as any).birthday_coupon_validity_days || 7),
       });
     }
   }, [settings]);
@@ -45,6 +51,9 @@ const SiteSettings = () => {
         countdown_minutes: parseInt(form.countdown_minutes),
         shipping_charge: parseFloat(form.shipping_charge),
         discount_codes: codes,
+        birthday_discount_enabled: form.birthday_discount_enabled,
+        birthday_discount_percent: parseFloat(form.birthday_discount_percent),
+        birthday_coupon_validity_days: parseInt(form.birthday_coupon_validity_days),
       };
       if (settings?.id) {
         const { error } = await supabase.from("site_settings").update(payload).eq("id", settings.id);
@@ -88,6 +97,27 @@ const SiteSettings = () => {
         <div>
           <label className="text-xs text-muted-foreground uppercase tracking-wider">Discount Codes (JSON)</label>
           <textarea value={form.discount_codes} onChange={(e) => setForm({ ...form, discount_codes: e.target.value })} className="w-full bg-muted/50 border border-border/50 rounded-sm px-3 py-2 text-sm text-foreground mt-1 h-24 font-mono focus:outline-none focus:border-primary/50" />
+        </div>
+
+        {/* Birthday Discount Settings */}
+        <div className="border-t border-border/30 pt-5">
+          <h3 className="font-heading text-lg font-bold mb-4">Birthday Discount</h3>
+          <div className="space-y-4">
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input type="checkbox" checked={form.birthday_discount_enabled} onChange={(e) => setForm({ ...form, birthday_discount_enabled: e.target.checked })} className="accent-primary w-4 h-4" />
+              <span className="text-sm">Enable Birthday Discounts</span>
+            </label>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-xs text-muted-foreground uppercase tracking-wider">Discount %</label>
+                <input type="number" value={form.birthday_discount_percent} onChange={(e) => setForm({ ...form, birthday_discount_percent: e.target.value })} className="w-full bg-muted/50 border border-border/50 rounded-sm px-3 py-2 text-sm text-foreground mt-1 focus:outline-none focus:border-primary/50" />
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground uppercase tracking-wider">Validity (days)</label>
+                <input type="number" value={form.birthday_coupon_validity_days} onChange={(e) => setForm({ ...form, birthday_coupon_validity_days: e.target.value })} className="w-full bg-muted/50 border border-border/50 rounded-sm px-3 py-2 text-sm text-foreground mt-1 focus:outline-none focus:border-primary/50" />
+              </div>
+            </div>
+          </div>
         </div>
 
         <button onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending} className="btn-luxury px-6 py-2.5 rounded-sm text-xs tracking-wider flex items-center gap-2">

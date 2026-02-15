@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      birthday_coupons: {
+        Row: {
+          coupon_code: string
+          created_at: string | null
+          discount_percent: number
+          id: string
+          is_used: boolean | null
+          user_id: string
+          valid_from: string
+          valid_until: string
+        }
+        Insert: {
+          coupon_code: string
+          created_at?: string | null
+          discount_percent?: number
+          id?: string
+          is_used?: boolean | null
+          user_id: string
+          valid_from: string
+          valid_until: string
+        }
+        Update: {
+          coupon_code?: string
+          created_at?: string | null
+          discount_percent?: number
+          id?: string
+          is_used?: boolean | null
+          user_id?: string
+          valid_from?: string
+          valid_until?: string
+        }
+        Relationships: []
+      }
       orders: {
         Row: {
           created_at: string | null
@@ -106,6 +139,7 @@ export type Database = {
           avatar_url: string | null
           blocked: boolean | null
           created_at: string | null
+          date_of_birth: string | null
           full_name: string | null
           id: string
           updated_at: string | null
@@ -115,6 +149,7 @@ export type Database = {
           avatar_url?: string | null
           blocked?: boolean | null
           created_at?: string | null
+          date_of_birth?: string | null
           full_name?: string | null
           id?: string
           updated_at?: string | null
@@ -124,8 +159,54 @@ export type Database = {
           avatar_url?: string | null
           blocked?: boolean | null
           created_at?: string | null
+          date_of_birth?: string | null
           full_name?: string | null
           id?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      saved_addresses: {
+        Row: {
+          address: string
+          city: string
+          created_at: string | null
+          full_name: string
+          id: string
+          is_default: boolean | null
+          label: string
+          phone: string
+          pincode: string
+          state: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          address: string
+          city: string
+          created_at?: string | null
+          full_name: string
+          id?: string
+          is_default?: boolean | null
+          label?: string
+          phone: string
+          pincode: string
+          state: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          address?: string
+          city?: string
+          created_at?: string | null
+          full_name?: string
+          id?: string
+          is_default?: boolean | null
+          label?: string
+          phone?: string
+          pincode?: string
+          state?: string
           updated_at?: string | null
           user_id?: string
         }
@@ -134,6 +215,9 @@ export type Database = {
       site_settings: {
         Row: {
           banner_text: string | null
+          birthday_coupon_validity_days: number | null
+          birthday_discount_enabled: boolean | null
+          birthday_discount_percent: number | null
           countdown_minutes: number | null
           discount_codes: Json | null
           id: string
@@ -143,6 +227,9 @@ export type Database = {
         }
         Insert: {
           banner_text?: string | null
+          birthday_coupon_validity_days?: number | null
+          birthday_discount_enabled?: boolean | null
+          birthday_discount_percent?: number | null
           countdown_minutes?: number | null
           discount_codes?: Json | null
           id?: string
@@ -152,12 +239,95 @@ export type Database = {
         }
         Update: {
           banner_text?: string | null
+          birthday_coupon_validity_days?: number | null
+          birthday_discount_enabled?: boolean | null
+          birthday_discount_percent?: number | null
           countdown_minutes?: number | null
           discount_codes?: Json | null
           id?: string
           shipping_charge?: number | null
           updated_at?: string | null
           urgency_message?: string | null
+        }
+        Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          created_at: string | null
+          discount_percent: number
+          frequency: Database["public"]["Enums"]["subscription_frequency"]
+          id: string
+          next_delivery_date: string
+          product_id: string
+          status: Database["public"]["Enums"]["subscription_status"]
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          discount_percent?: number
+          frequency?: Database["public"]["Enums"]["subscription_frequency"]
+          id?: string
+          next_delivery_date?: string
+          product_id: string
+          status?: Database["public"]["Enums"]["subscription_status"]
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          discount_percent?: number
+          frequency?: Database["public"]["Enums"]["subscription_frequency"]
+          id?: string
+          next_delivery_date?: string
+          product_id?: string
+          status?: Database["public"]["Enums"]["subscription_status"]
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      testimonials: {
+        Row: {
+          created_at: string | null
+          customer_name: string
+          customer_photo_url: string | null
+          id: string
+          is_approved: boolean | null
+          is_verified_purchase: boolean | null
+          rating: number
+          review_text: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          customer_name: string
+          customer_photo_url?: string | null
+          id?: string
+          is_approved?: boolean | null
+          is_verified_purchase?: boolean | null
+          rating?: number
+          review_text: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          customer_name?: string
+          customer_photo_url?: string | null
+          id?: string
+          is_approved?: boolean | null
+          is_verified_purchase?: boolean | null
+          rating?: number
+          review_text?: string
+          updated_at?: string | null
         }
         Relationships: []
       }
@@ -184,6 +354,9 @@ export type Database = {
       public_site_settings: {
         Row: {
           banner_text: string | null
+          birthday_coupon_validity_days: number | null
+          birthday_discount_enabled: boolean | null
+          birthday_discount_percent: number | null
           countdown_minutes: number | null
           id: string | null
           shipping_charge: number | null
@@ -192,6 +365,9 @@ export type Database = {
         }
         Insert: {
           banner_text?: string | null
+          birthday_coupon_validity_days?: number | null
+          birthday_discount_enabled?: boolean | null
+          birthday_discount_percent?: number | null
           countdown_minutes?: number | null
           id?: string | null
           shipping_charge?: number | null
@@ -200,6 +376,9 @@ export type Database = {
         }
         Update: {
           banner_text?: string | null
+          birthday_coupon_validity_days?: number | null
+          birthday_discount_enabled?: boolean | null
+          birthday_discount_percent?: number | null
           countdown_minutes?: number | null
           id?: string | null
           shipping_charge?: number | null
@@ -222,6 +401,8 @@ export type Database = {
       app_role: "admin" | "moderator" | "user"
       order_status: "pending" | "shipped" | "delivered" | "cancelled"
       product_status: "in_stock" | "out_of_stock" | "coming_soon"
+      subscription_frequency: "30_days" | "60_days"
+      subscription_status: "active" | "paused" | "cancelled"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -352,6 +533,8 @@ export const Constants = {
       app_role: ["admin", "moderator", "user"],
       order_status: ["pending", "shipped", "delivered", "cancelled"],
       product_status: ["in_stock", "out_of_stock", "coming_soon"],
+      subscription_frequency: ["30_days", "60_days"],
+      subscription_status: ["active", "paused", "cancelled"],
     },
   },
 } as const

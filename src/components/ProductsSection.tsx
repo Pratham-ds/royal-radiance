@@ -3,6 +3,7 @@ import { Star, ShoppingBag, Minus, Plus, AlertTriangle } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import CountdownTimer from "./CountdownTimer";
 import { useProducts } from "@/hooks/useProducts";
+import SubscribeBadge from "./SubscribeBadge";
 
 import vitaminCImg from "@/assets/vitamin-c-serum.jpg";
 import retinolImg from "@/assets/retinol-serum.jpg";
@@ -103,6 +104,10 @@ const ProductsSection = () => {
               }
 
                 {featuredProduct.countdown_minutes && <CountdownTimer minutes={featuredProduct.countdown_minutes} />}
+
+                <div className="mt-4">
+                  <SubscribeBadge productId={featuredProduct.id} productName={featuredProduct.name} price={Number(featuredProduct.price)} />
+                </div>
 
                 <div className="flex items-center gap-4 mt-6">
                   <div className="flex items-center border border-border rounded-sm">
