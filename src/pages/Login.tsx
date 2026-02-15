@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 
 const Login = () => {
@@ -9,6 +10,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [errors, setErrors] = useState<{email?: string;password?: string;fullName?: string;}>({});
@@ -23,6 +25,7 @@ const Login = () => {
     if (!password) errs.password = "Password is required";else
     if (password.length < 6) errs.password = "Minimum 6 characters";
     if (mode === "signup" && !fullName.trim()) errs.fullName = "Name is required";
+    if (mode === "signup" && !dateOfBirth) (errs as any).dob = "Date of birth is required";
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
@@ -45,6 +48,13 @@ const Login = () => {
       if (error) {
         toast({ title: "Signup failed", description: error, variant: "destructive" });
       } else {
+        // Save DOB to profile after signup
+        if (dateOfBirth) {
+          const { data: { user: newUser } } = await supabase.auth.getUser();
+          if (newUser) {
+            await supabase.from("profiles").update({ date_of_birth: dateOfBirth } as any).eq("user_id", newUser.id);
+          }
+        }
         toast({ title: "Account created!", description: "Please check your email to verify your account." });
         setMode("login");
       }
@@ -71,11 +81,18 @@ const Login = () => {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {mode === "signup" &&
-            <div>
+            <>
+              <div>
                 <label className="block text-xs font-body tracking-wider uppercase text-foreground/60 mb-2">Full Name</label>
                 <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} className="w-full bg-muted/50 border border-border/50 rounded-sm px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all" placeholder="Your Name" />
                 {errors.fullName && <p className="text-xs text-destructive mt-1">{errors.fullName}</p>}
               </div>
+              <div>
+                <label className="block text-xs font-body tracking-wider uppercase text-foreground/60 mb-2">Date of Birth</label>
+                <input type="date" value={dateOfBirth} onChange={(e) => setDateOfBirth(e.target.value)} className="w-full bg-muted/50 border border-border/50 rounded-sm px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all" />
+                {(errors as any).dob && <p className="text-xs text-destructive mt-1">{(errors as any).dob}</p>}
+              </div>
+            </>
             }
 
             <div>

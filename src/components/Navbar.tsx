@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ShoppingBag, User, Menu, X, Crown, LogOut, Package } from "lucide-react";
+import { ShoppingBag, User, Menu, X, Crown, LogOut, Package, LayoutDashboard } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 
@@ -43,8 +43,8 @@ const Navbar = () => {
         <div className="flex items-center gap-4">
           {user ? (
             <>
-              <Link to="/my-orders" className="text-foreground/70 hover:text-primary transition-colors duration-300" title="My Orders">
-                <Package className="w-5 h-5" />
+              <Link to="/dashboard" className="text-foreground/70 hover:text-primary transition-colors duration-300" title="My Dashboard">
+                <LayoutDashboard className="w-5 h-5" />
               </Link>
               <button onClick={handleSignOut} className="text-foreground/70 hover:text-primary transition-colors duration-300" title="Sign Out">
                 <LogOut className="w-5 h-5" />
