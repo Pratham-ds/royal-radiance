@@ -3,6 +3,8 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Save } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { mapDatabaseError } from "@/lib/errorHandler";
+import { validateNumber, validateInteger } from "@/lib/validation";
 
 const SiteSettings = () => {
   const queryClient = useQueryClient();
@@ -45,15 +47,22 @@ const SiteSettings = () => {
     mutationFn: async () => {
       let codes;
       try { codes = JSON.parse(form.discount_codes); } catch { codes = []; }
+      const countdown = validateInteger(form.countdown_minutes, 1, 10080);
+      const shipping = validateNumber(form.shipping_charge, 0, 99999);
+      const birthdayPercent = validateNumber(form.birthday_discount_percent, 0, 100);
+      const birthdayDays = validateInteger(form.birthday_coupon_validity_days, 1, 365);
+      if (countdown === null || shipping === null || birthdayPercent === null || birthdayDays === null) {
+        throw new Error('VALIDATION_ERROR');
+      }
       const payload = {
         banner_text: form.banner_text,
         urgency_message: form.urgency_message,
-        countdown_minutes: parseInt(form.countdown_minutes),
-        shipping_charge: parseFloat(form.shipping_charge),
+        countdown_minutes: countdown,
+        shipping_charge: shipping,
         discount_codes: codes,
         birthday_discount_enabled: form.birthday_discount_enabled,
-        birthday_discount_percent: parseFloat(form.birthday_discount_percent),
-        birthday_coupon_validity_days: parseInt(form.birthday_coupon_validity_days),
+        birthday_discount_percent: birthdayPercent,
+        birthday_coupon_validity_days: birthdayDays,
       };
       if (settings?.id) {
         const { error } = await supabase.from("site_settings").update(payload).eq("id", settings.id);
@@ -65,7 +74,14 @@ const SiteSettings = () => {
       queryClient.invalidateQueries({ queryKey: ["site_settings"] });
       toast({ title: "Settings saved" });
     },
-    onError: (e: any) => toast({ title: "Error", description: e.message, variant: "destructive" }),
+    onError: (e: any) => {
+      if (e.message === 'VALIDATION_ERROR') {
+        toast({ title: "Invalid input", description: "Please enter valid numeric values.", variant: "destructive" });
+      } else {
+        console.error('Settings save error:', e);
+        toast({ title: "Error", description: mapDatabaseError(e), variant: "destructive" });
+      }
+    },
   });
 
   return (

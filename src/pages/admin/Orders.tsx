@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Eye, X } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { mapDatabaseError } from "@/lib/errorHandler";
 
 type OrderStatus = "pending" | "shipped" | "delivered" | "cancelled";
 
@@ -35,7 +36,10 @@ const Orders = () => {
       queryClient.invalidateQueries({ queryKey: ["admin-orders"] });
       toast({ title: "Order status updated" });
     },
-    onError: (e: any) => toast({ title: "Error", description: e.message, variant: "destructive" }),
+    onError: (e: any) => {
+      console.error('Order update error:', e);
+      toast({ title: "Error", description: mapDatabaseError(e), variant: "destructive" });
+    },
   });
 
   return (
