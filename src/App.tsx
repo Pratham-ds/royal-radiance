@@ -22,6 +22,7 @@ import MyOrders from "./pages/MyOrders";
 import UserDashboard from "./pages/UserDashboard";
 import Testimonials from "./pages/admin/Testimonials";
 import AdminSubscriptions from "./pages/admin/Subscriptions";
+import Contact from "./pages/Contact";
 
 const queryClient = new QueryClient();
 
@@ -56,6 +57,7 @@ const App = () => (
                     <Route path="/checkout" element={<Checkout />} />
                     <Route path="/my-orders" element={<MyOrders />} />
                     <Route path="/dashboard" element={<UserDashboard />} />
+                    <Route path="/contact" element={<Contact />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </>
