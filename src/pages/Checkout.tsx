@@ -4,7 +4,8 @@ import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, MapPin, Phone, CreditCard, Banknote, Smartphone, ShoppingBag } from "lucide-react";
+import { ArrowLeft, MapPin, Phone, CreditCard, Banknote, Smartphone, ShoppingBag, Cake } from "lucide-react";
+import { useCheckBirthday } from "@/hooks/useBirthdayCoupons";
 
 const paymentMethods = [
   { id: "cod", label: "Cash on Delivery", icon: Banknote, description: "Pay when your order arrives" },
@@ -17,6 +18,7 @@ const Checkout = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [submitting, setSubmitting] = useState(false);
+  const { data: birthdayData } = useCheckBirthday(user?.id);
   const [form, setForm] = useState({
     fullName: user?.user_metadata?.full_name || "",
     email: user?.email || "",
@@ -29,7 +31,10 @@ const Checkout = () => {
   });
 
   const shippingCharge = subtotal >= 999 ? 0 : 79;
-  const total = subtotal + shippingCharge;
+  const birthdayDiscount = birthdayData?.isBirthday && birthdayData?.coupon
+    ? Math.round(subtotal * (birthdayData.coupon.discount_percent / 100))
+    : 0;
+  const total = subtotal + shippingCharge - birthdayDiscount;
 
   const update = (field: string, value: string) => setForm((prev) => ({ ...prev, [field]: value }));
 
@@ -218,6 +223,14 @@ const Checkout = () => {
                   </div>
                   {shippingCharge > 0 && (
                     <p className="text-[10px] text-muted-foreground">Free shipping on orders above ₹999</p>
+                  )}
+                  {birthdayDiscount > 0 && (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground flex items-center gap-1">
+                        <Cake className="w-3 h-3 text-primary" /> Birthday Discount
+                      </span>
+                      <span className="text-green-500">-₹{birthdayDiscount}</span>
+                    </div>
                   )}
                   <div className="flex justify-between font-heading text-lg font-bold pt-2 border-t border-border/20">
                     <span>Total</span>
