@@ -23,6 +23,7 @@ import UserDashboard from "./pages/UserDashboard";
 import Testimonials from "./pages/admin/Testimonials";
 import AdminSubscriptions from "./pages/admin/Subscriptions";
 import Contact from "./pages/Contact";
+import ContactMessages from "./pages/admin/ContactMessages";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +45,7 @@ const App = () => (
                 <Route path="settings" element={<SiteSettings />} />
                 <Route path="testimonials" element={<Testimonials />} />
                 <Route path="subscriptions" element={<AdminSubscriptions />} />
+                <Route path="contact-messages" element={<ContactMessages />} />
               </Route>
 
               {/* Public routes with navbar */}

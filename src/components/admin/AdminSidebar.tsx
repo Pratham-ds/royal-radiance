@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import {
   LayoutDashboard, Package, ShoppingCart, Users, Settings,
-  ChevronLeft, ChevronRight, LogOut, Crown, MessageSquare, RefreshCw,
+  ChevronLeft, ChevronRight, LogOut, Crown, MessageSquare, RefreshCw, Inbox,
 } from "lucide-react";
 
 const navItems = [
@@ -13,6 +13,7 @@ const navItems = [
   { path: "/admin/customers", icon: Users, label: "Customers" },
   { path: "/admin/testimonials", icon: MessageSquare, label: "Testimonials" },
   { path: "/admin/subscriptions", icon: RefreshCw, label: "Subscriptions" },
+  { path: "/admin/contact-messages", icon: Inbox, label: "Messages" },
   { path: "/admin/settings", icon: Settings, label: "Settings" },
 ];
 
