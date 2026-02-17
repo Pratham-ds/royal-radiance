@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Search, Ban, CheckCircle, Trash2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { mapDatabaseError } from "@/lib/errorHandler";
 
 const Customers = () => {
   const queryClient = useQueryClient();
@@ -26,7 +27,10 @@ const Customers = () => {
       queryClient.invalidateQueries({ queryKey: ["admin-customers"] });
       toast({ title: "Customer updated" });
     },
-    onError: (e: any) => toast({ title: "Error", description: e.message, variant: "destructive" }),
+    onError: (e: any) => {
+      console.error('Customer update error:', e);
+      toast({ title: "Error", description: mapDatabaseError(e), variant: "destructive" });
+    },
   });
 
   const deleteCustomer = useMutation({
@@ -38,7 +42,10 @@ const Customers = () => {
       queryClient.invalidateQueries({ queryKey: ["admin-customers"] });
       toast({ title: "Customer profile deleted" });
     },
-    onError: (e: any) => toast({ title: "Error", description: e.message, variant: "destructive" }),
+    onError: (e: any) => {
+      console.error('Customer delete error:', e);
+      toast({ title: "Error", description: mapDatabaseError(e), variant: "destructive" });
+    },
   });
 
   const filtered = profiles?.filter((p) =>

@@ -3,6 +3,8 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Plus, Pencil, Trash2, X, Save } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { mapDatabaseError } from "@/lib/errorHandler";
+import { validateNumber, validateInteger } from "@/lib/validation";
 
 type ProductStatus = "in_stock" | "out_of_stock" | "coming_soon";
 
@@ -39,14 +41,20 @@ const Products = () => {
 
   const upsertMutation = useMutation({
     mutationFn: async ({ id, form }: { id?: string; form: ProductForm }) => {
+      const price = validateNumber(form.price, 0, 999999);
+      const stock = validateInteger(form.stock_quantity, 0, 1000000);
+      const countdown = form.countdown_minutes ? validateInteger(form.countdown_minutes, 1, 10080) : null;
+      if (price === null || stock === null || (form.countdown_minutes && countdown === null)) {
+        throw new Error('VALIDATION_ERROR');
+      }
       const payload = {
         name: form.name,
         description: form.description || null,
-        price: parseFloat(form.price),
-        stock_quantity: parseInt(form.stock_quantity),
+        price,
+        stock_quantity: stock,
         status: form.status as ProductStatus,
         urgency_message: form.urgency_message || null,
-        countdown_minutes: form.countdown_minutes ? parseInt(form.countdown_minutes) : null,
+        countdown_minutes: countdown,
         image_url: form.image_url || null,
       };
       if (id) {
@@ -65,7 +73,14 @@ const Products = () => {
       setForm(emptyForm);
       toast({ title: "Product saved successfully" });
     },
-    onError: (e: any) => toast({ title: "Error", description: e.message, variant: "destructive" }),
+    onError: (e: any) => {
+      if (e.message === 'VALIDATION_ERROR') {
+        toast({ title: "Invalid input", description: "Please enter valid numeric values for price, stock, and countdown.", variant: "destructive" });
+      } else {
+        console.error('Product save error:', e);
+        toast({ title: "Error", description: mapDatabaseError(e), variant: "destructive" });
+      }
+    },
   });
 
   const deleteMutation = useMutation({
@@ -78,7 +93,10 @@ const Products = () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
       toast({ title: "Product deleted" });
     },
-    onError: (e: any) => toast({ title: "Error", description: e.message, variant: "destructive" }),
+    onError: (e: any) => {
+      console.error('Product delete error:', e);
+      toast({ title: "Error", description: mapDatabaseError(e), variant: "destructive" });
+    },
   });
 
   const startEdit = (product: any) => {
