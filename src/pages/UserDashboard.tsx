@@ -323,22 +323,34 @@ const UserDashboard = () => {
                 <Cake className="w-5 h-5 text-primary" /> Birthday Discount
               </h3>
               <p className="text-xs text-muted-foreground mb-4">
-                Add your date of birth to receive a special discount coupon on your birthday!
+                {profile?.date_of_birth 
+                  ? "Your birthday discount will be automatically applied when you shop on your birthday!"
+                  : "Add your date of birth to receive a special discount coupon on your birthday! (can only be set once)"}
               </p>
-              <div className="flex gap-3 items-end">
-                <div>
-                  <label className="text-xs text-muted-foreground uppercase tracking-wider">Date of Birth</label>
-                  <input
-                    type="date"
-                    value={dob}
-                    onChange={(e) => setDob(e.target.value)}
-                    className="w-full bg-muted/50 border border-border/50 rounded-sm px-3 py-2.5 text-sm text-foreground mt-1 focus:outline-none focus:border-primary/50"
-                  />
+              {profile?.date_of_birth ? (
+                <div className="flex items-center gap-3">
+                  <div>
+                    <label className="text-xs text-muted-foreground uppercase tracking-wider">Date of Birth</label>
+                    <p className="text-sm mt-1 text-foreground">{new Date(profile.date_of_birth).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}</p>
+                  </div>
+                  <span className="text-[10px] text-muted-foreground bg-muted/50 px-2 py-1 rounded">Locked</span>
                 </div>
-                <button onClick={handleSaveDob} disabled={savingDob || !dob} className="btn-luxury px-4 py-2.5 rounded-sm text-sm tracking-wider disabled:opacity-50">
-                  {savingDob ? "Saving..." : "Save"}
-                </button>
-              </div>
+              ) : (
+                <div className="flex gap-3 items-end">
+                  <div>
+                    <label className="text-xs text-muted-foreground uppercase tracking-wider">Date of Birth</label>
+                    <input
+                      type="date"
+                      value={dob}
+                      onChange={(e) => setDob(e.target.value)}
+                      className="w-full bg-muted/50 border border-border/50 rounded-sm px-3 py-2.5 text-sm text-foreground mt-1 focus:outline-none focus:border-primary/50"
+                    />
+                  </div>
+                  <button onClick={handleSaveDob} disabled={savingDob || !dob} className="btn-luxury px-4 py-2.5 rounded-sm text-sm tracking-wider disabled:opacity-50">
+                    {savingDob ? "Saving..." : "Save"}
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         )}
