@@ -9,8 +9,6 @@ import { useCheckBirthday } from "@/hooks/useBirthdayCoupons";
 
 const paymentMethods = [
   { id: "cod", label: "Cash on Delivery", icon: Banknote, description: "Pay when your order arrives" },
-  { id: "upi", label: "UPI Payment", icon: Smartphone, description: "GPay, PhonePe, Paytm" },
-  { id: "card", label: "Credit / Debit Card", icon: CreditCard, description: "Visa, Mastercard, RuPay" },
 ];
 
 const Checkout = () => {
