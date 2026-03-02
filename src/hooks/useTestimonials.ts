@@ -16,13 +16,13 @@ export const useTestimonials = (approvedOnly = true) => {
   return useQuery({
     queryKey: ["testimonials", approvedOnly],
     queryFn: async () => {
-      let query = supabase.from("testimonials" as any).select("*").order("created_at", { ascending: false });
+      let query = supabase.from("testimonials").select("*").order("created_at", { ascending: false });
       if (approvedOnly) {
         query = query.eq("is_approved", true);
       }
       const { data, error } = await query;
       if (error) throw error;
-      return data as unknown as Testimonial[];
+      return (data ?? []) as Testimonial[];
     },
   });
 };
@@ -33,7 +33,7 @@ export const useTestimonialMutations = () => {
 
   const create = useMutation({
     mutationFn: async (t: Omit<Testimonial, "id" | "created_at">) => {
-      const { error } = await supabase.from("testimonials" as any).insert(t as any);
+      const { error } = await supabase.from("testimonials").insert(t as any);
       if (error) throw error;
     },
     onSuccess: invalidate,
@@ -41,7 +41,7 @@ export const useTestimonialMutations = () => {
 
   const update = useMutation({
     mutationFn: async ({ id, ...rest }: Partial<Testimonial> & { id: string }) => {
-      const { error } = await supabase.from("testimonials" as any).update(rest as any).eq("id", id);
+      const { error } = await supabase.from("testimonials").update(rest as any).eq("id", id);
       if (error) throw error;
     },
     onSuccess: invalidate,
@@ -49,7 +49,7 @@ export const useTestimonialMutations = () => {
 
   const remove = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from("testimonials" as any).delete().eq("id", id);
+      const { error } = await supabase.from("testimonials").delete().eq("id", id);
       if (error) throw error;
     },
     onSuccess: invalidate,
