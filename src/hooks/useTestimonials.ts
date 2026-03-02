@@ -21,9 +21,15 @@ export const useTestimonials = (approvedOnly = true) => {
         query = query.eq("is_approved", true);
       }
       const { data, error } = await query;
-      if (error) throw error;
+      if (error) {
+        console.error("Error fetching testimonials:", error.message);
+        throw error;
+      }
       return (data ?? []) as Testimonial[];
     },
+    retry: 3,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000),
+    staleTime: 1000 * 60 * 5,
   });
 };
 
