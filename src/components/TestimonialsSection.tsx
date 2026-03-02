@@ -47,7 +47,7 @@ const TestimonialsSection = () => {
           <div key={t.id} className="animate-fade-in text-center">
             {/* Photo */}
             <div className="w-20 h-20 rounded-full mx-auto mb-6 overflow-hidden border-2 border-primary/30">
-              {t.customer_photo_url ? (
+              {t.customer_photo_url && t.customer_photo_url.trim() !== "" ? (
                 <img src={t.customer_photo_url} alt={t.customer_name} className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full bg-muted flex items-center justify-center">
