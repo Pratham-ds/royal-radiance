@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Plus, Pencil, Trash2, X, Save } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { mapDatabaseError } from "@/lib/errorHandler";
+import ProductImageUpload from "@/components/admin/ProductImageUpload";
 import { validateNumber, validateInteger } from "@/lib/validation";
 
 type ProductStatus = "in_stock" | "out_of_stock" | "coming_soon";
@@ -148,10 +149,10 @@ const Products = () => {
         <label className="text-xs text-muted-foreground uppercase tracking-wider">Countdown (minutes)</label>
         <input type="number" value={form.countdown_minutes} onChange={(e) => setForm({ ...form, countdown_minutes: e.target.value })} className="w-full bg-muted/50 border border-border/50 rounded-sm px-3 py-2 text-sm text-foreground mt-1 focus:outline-none focus:border-primary/50" />
       </div>
-      <div className="md:col-span-2">
-        <label className="text-xs text-muted-foreground uppercase tracking-wider">Image URL</label>
-        <input value={form.image_url} onChange={(e) => setForm({ ...form, image_url: e.target.value })} className="w-full bg-muted/50 border border-border/50 rounded-sm px-3 py-2 text-sm text-foreground mt-1 focus:outline-none focus:border-primary/50" placeholder="https://..." />
-      </div>
+      <ProductImageUpload
+        imageUrl={form.image_url}
+        onImageChange={(url) => setForm({ ...form, image_url: url })}
+      />
       <div className="md:col-span-2 flex gap-2 justify-end">
         <button onClick={() => { setEditing(null); setCreating(false); setForm(emptyForm); }} className="btn-luxury-outline px-4 py-2 rounded-sm text-xs tracking-wider flex items-center gap-1">
           <X className="w-3 h-3" /> Cancel
