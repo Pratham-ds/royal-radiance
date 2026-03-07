@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Plus, Pencil, Trash2, X, Save } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { mapDatabaseError } from "@/lib/errorHandler";
+import ProductImageUpload from "@/components/admin/ProductImageUpload";
 import { validateNumber, validateInteger } from "@/lib/validation";
 
 type ProductStatus = "in_stock" | "out_of_stock" | "coming_soon";
