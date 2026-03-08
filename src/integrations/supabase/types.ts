@@ -354,6 +354,7 @@ export type Database = {
           id: string
           is_approved: boolean | null
           is_verified_purchase: boolean | null
+          product_id: string | null
           rating: number
           review_text: string
           updated_at: string | null
@@ -365,6 +366,7 @@ export type Database = {
           id?: string
           is_approved?: boolean | null
           is_verified_purchase?: boolean | null
+          product_id?: string | null
           rating?: number
           review_text: string
           updated_at?: string | null
@@ -376,11 +378,20 @@ export type Database = {
           id?: string
           is_approved?: boolean | null
           is_verified_purchase?: boolean | null
+          product_id?: string | null
           rating?: number
           review_text?: string
           updated_at?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "testimonials_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {

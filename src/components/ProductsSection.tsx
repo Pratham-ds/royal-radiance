@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Star, ShoppingBag, Minus, Plus, AlertTriangle } from "lucide-react";
+import { Star, ShoppingBag, Minus, Plus, AlertTriangle, MessageSquare } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import CountdownTimer from "./CountdownTimer";
 import { useProducts } from "@/hooks/useProducts";
 import SubscribeBadge from "./SubscribeBadge";
+import ProductReviewsDialog from "./ProductReviewsDialog";
 
 import vitaminCImg from "@/assets/vitamin-c-serum.jpg";
 import retinolImg from "@/assets/retinol-serum.jpg";
@@ -24,6 +25,7 @@ const ProductsSection = () => {
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
   const { data: products, isLoading } = useProducts();
+  const [reviewProduct, setReviewProduct] = useState<{ id: string; name: string } | null>(null);
 
   const featuredProduct = products?.find((p: any) => p.is_featured);
   const otherProducts = products?.filter((p) => p.id !== featuredProduct?.id) ?? [];
@@ -89,7 +91,13 @@ const ProductsSection = () => {
                   <Star key={i} className={`w-4 h-4 ${i < 4 ? "fill-primary text-primary" : "fill-primary/30 text-primary/30"}`} />
                   )}
                   </div>
-                  <span className="text-xs text-muted-foreground">(4.8 · 127 Reviews)</span>
+                  <button
+                    onClick={() => setReviewProduct({ id: featuredProduct.id, name: featuredProduct.name })}
+                    className="text-xs text-primary hover:text-primary/80 transition-colors cursor-pointer flex items-center gap-1"
+                  >
+                    <MessageSquare className="w-3 h-3" />
+                    View Reviews
+                  </button>
                 </div>
                 <p className="text-foreground/60 font-body text-sm leading-relaxed mb-6">{featuredProduct.description}</p>
                 <p className="font-heading text-3xl font-bold text-primary mb-6">
@@ -154,8 +162,16 @@ const ProductsSection = () => {
                     <div className="p-5">
                       <h4 className="font-heading text-base font-semibold text-foreground/60 mb-1">{product.name}</h4>
                       <p className="text-xs text-muted-foreground mb-3">{product.description}</p>
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-between mb-2">
                         <span className="font-heading text-lg font-bold text-foreground/40">₹{Number(product.price).toFixed(0)}</span>
+                        <button
+                          onClick={() => setReviewProduct({ id: product.id, name: product.name })}
+                          className="text-[10px] text-primary hover:text-primary/80 transition-colors flex items-center gap-1"
+                        >
+                          <MessageSquare className="w-3 h-3" /> Reviews
+                        </button>
+                      </div>
+                      <div className="flex items-center justify-end">
                         <button disabled={!isAvailable} className="text-xs font-body tracking-wider uppercase text-muted-foreground border border-border/30 px-3 py-1.5 rounded-sm cursor-not-allowed">
                           {isAvailable ? "Add to Cart" : "Sold Out"}
                         </button>
@@ -168,6 +184,13 @@ const ProductsSection = () => {
           </>
         }
       </div>
+
+      <ProductReviewsDialog
+        productId={reviewProduct?.id ?? ""}
+        productName={reviewProduct?.name ?? ""}
+        open={!!reviewProduct}
+        onClose={() => setReviewProduct(null)}
+      />
     </section>);
 
 };
