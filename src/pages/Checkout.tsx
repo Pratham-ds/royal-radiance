@@ -28,7 +28,7 @@ const Checkout = () => {
     paymentMethod: "cod",
   });
 
-  const shippingCharge = subtotal >= 999 ? 0 : 79;
+  const shippingCharge = subtotal >= 800 ? 0 : 79;
   const birthdayDiscount = birthdayData?.isBirthday && birthdayData?.coupon
     ? Math.round(subtotal * (birthdayData.coupon.discount_percent / 100))
     : 0;
