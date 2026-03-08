@@ -13,6 +13,8 @@ const Login = () => {
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [forgotMode, setForgotMode] = useState(false);
+  const [forgotLoading, setForgotLoading] = useState(false);
   const [errors, setErrors] = useState<{email?: string;password?: string;fullName?: string;}>({});
   const [loading, setLoading] = useState(false);
   const { signIn, signUp } = useAuth();
