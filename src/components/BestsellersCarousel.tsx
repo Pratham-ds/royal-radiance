@@ -3,6 +3,7 @@ import { ShoppingBag, Minus, Plus, AlertTriangle, Star } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useProducts } from "@/hooks/useProducts";
 import CountdownTimer from "./CountdownTimer";
+import Autoplay from "embla-carousel-autoplay";
 import {
   Carousel,
   CarouselContent,
@@ -68,7 +69,7 @@ const BestsellersCarousel = () => {
         </div>
 
         <div className="max-w-5xl mx-auto">
-          <Carousel opts={{ align: "center", loop: true }} className="w-full">
+          <Carousel opts={{ align: "center", loop: true }} plugins={[Autoplay({ delay: 5000, stopOnInteraction: true })]} className="w-full">
             <CarouselContent>
               {bestsellers.map((product: any) => {
                 const isAvailable = product.status === "in_stock" && product.stock_quantity > 0;
