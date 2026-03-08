@@ -184,6 +184,13 @@ const ProductsSection = () => {
           </>
         }
       </div>
+
+      <ProductReviewsDialog
+        productId={reviewProduct?.id ?? ""}
+        productName={reviewProduct?.name ?? ""}
+        open={!!reviewProduct}
+        onClose={() => setReviewProduct(null)}
+      />
     </section>);
 
 };
