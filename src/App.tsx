@@ -67,6 +67,7 @@ const App = () => (
                     <Route path="/terms" element={<TermsAndConditions />} />
                     <Route path="/refund-policy" element={<RefundPolicy />} />
                     <Route path="/payment-callback" element={<PaymentCallback />} />
+                    <Route path="/reset-password" element={<ResetPassword />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </>
