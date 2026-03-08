@@ -27,6 +27,7 @@ import ContactMessages from "./pages/admin/ContactMessages";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import RefundPolicy from "./pages/RefundPolicy";
 import PaymentCallback from "./pages/PaymentCallback";
+import ResetPassword from "./pages/ResetPassword";
 
 const queryClient = new QueryClient();
 
