@@ -26,7 +26,7 @@ const Checkout = () => {
     city: "",
     state: "",
     pincode: "",
-    paymentMethod: "cod",
+    paymentMethod: "instamojo",
   });
 
   const shippingCharge = subtotal >= 800 ? 0 : 79;
