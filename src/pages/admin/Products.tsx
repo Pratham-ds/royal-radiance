@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Plus, Pencil, Trash2, X, Save } from "lucide-react";
+import { Plus, Pencil, Trash2, X, Save, Star } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { mapDatabaseError } from "@/lib/errorHandler";
 import ProductImageUpload from "@/components/admin/ProductImageUpload";
