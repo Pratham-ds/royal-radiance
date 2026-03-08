@@ -66,27 +66,18 @@ const Checkout = () => {
       };
 
       if (form.paymentMethod === "instamojo") {
-        // Online payment via Instamojo
-        const redirectUrl = `${window.location.origin}/payment-callback`;
-        const { data, error } = await supabase.functions.invoke("instamojo-payment", {
-          body: {
-            action: "create_payment",
-            amount: total,
-            purpose: "Order Payment - Regal Adornments",
-            buyer_name: form.fullName,
-            email: form.email || user.email || "",
-            phone: form.phone,
-            redirect_url: redirectUrl,
-            order_data: orderData,
-          },
+        // Save order as pending, then redirect to Instamojo payment button link
+        const { error: orderError } = await supabase.from("orders").insert({
+          user_id: user.id,
+          ...orderData,
+          payment_method: "instamojo",
+          status: "pending" as const,
         });
+        if (orderError) throw orderError;
 
-        if (error || !data?.success) {
-          throw new Error(data?.error || "Payment initiation failed");
-        }
-
-        // Redirect to Instamojo payment page
-        window.location.href = data.payment_url;
+        items.forEach((i) => removeFromCart(i.id));
+        // Redirect to Instamojo payment link
+        window.location.href = "https://www.instamojo.com/@medival/le8f48b8543cf4c448548cc2e394bc70e/";
         return;
       }
 
