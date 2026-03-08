@@ -162,8 +162,16 @@ const ProductsSection = () => {
                     <div className="p-5">
                       <h4 className="font-heading text-base font-semibold text-foreground/60 mb-1">{product.name}</h4>
                       <p className="text-xs text-muted-foreground mb-3">{product.description}</p>
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-between mb-2">
                         <span className="font-heading text-lg font-bold text-foreground/40">₹{Number(product.price).toFixed(0)}</span>
+                        <button
+                          onClick={() => setReviewProduct({ id: product.id, name: product.name })}
+                          className="text-[10px] text-primary hover:text-primary/80 transition-colors flex items-center gap-1"
+                        >
+                          <MessageSquare className="w-3 h-3" /> Reviews
+                        </button>
+                      </div>
+                      <div className="flex items-center justify-end">
                         <button disabled={!isAvailable} className="text-xs font-body tracking-wider uppercase text-muted-foreground border border-border/30 px-3 py-1.5 rounded-sm cursor-not-allowed">
                           {isAvailable ? "Add to Cart" : "Sold Out"}
                         </button>
