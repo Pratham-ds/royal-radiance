@@ -25,6 +25,7 @@ const ProductsSection = () => {
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
   const { data: products, isLoading } = useProducts();
+  const [reviewProduct, setReviewProduct] = useState<{ id: string; name: string } | null>(null);
 
   const featuredProduct = products?.find((p: any) => p.is_featured);
   const otherProducts = products?.filter((p) => p.id !== featuredProduct?.id) ?? [];
