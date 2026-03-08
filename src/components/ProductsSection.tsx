@@ -91,7 +91,13 @@ const ProductsSection = () => {
                   <Star key={i} className={`w-4 h-4 ${i < 4 ? "fill-primary text-primary" : "fill-primary/30 text-primary/30"}`} />
                   )}
                   </div>
-                  <span className="text-xs text-muted-foreground">(4.8 · 127 Reviews)</span>
+                  <button
+                    onClick={() => setReviewProduct({ id: featuredProduct.id, name: featuredProduct.name })}
+                    className="text-xs text-primary hover:text-primary/80 transition-colors cursor-pointer flex items-center gap-1"
+                  >
+                    <MessageSquare className="w-3 h-3" />
+                    View Reviews
+                  </button>
                 </div>
                 <p className="text-foreground/60 font-body text-sm leading-relaxed mb-6">{featuredProduct.description}</p>
                 <p className="font-heading text-3xl font-bold text-primary mb-6">
