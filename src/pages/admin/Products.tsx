@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Plus, Pencil, Trash2, X, Save, Star } from "lucide-react";
+import { Plus, Pencil, Trash2, X, Save, Star, Crown } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { mapDatabaseError } from "@/lib/errorHandler";
 import ProductImageUpload from "@/components/admin/ProductImageUpload";
@@ -93,6 +93,21 @@ const Products = () => {
       queryClient.invalidateQueries({ queryKey: ["admin-products"] });
       queryClient.invalidateQueries({ queryKey: ["products"] });
       toast({ title: "Bestseller status updated" });
+    },
+    onError: (e: any) => {
+      toast({ title: "Error", description: mapDatabaseError(e), variant: "destructive" });
+    },
+  });
+
+  const toggleFeatured = useMutation({
+    mutationFn: async ({ id, current }: { id: string; current: boolean }) => {
+      const { error } = await supabase.from("products").update({ is_featured: !current } as any).eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-products"] });
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      toast({ title: "Featured status updated" });
     },
     onError: (e: any) => {
       toast({ title: "Error", description: mapDatabaseError(e), variant: "destructive" });
@@ -225,6 +240,9 @@ const Products = () => {
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
+                    {product.is_featured && (
+                      <span className="text-[10px] px-2 py-1 rounded-full tracking-wider uppercase font-bold bg-primary/30 text-primary">♛ Featured</span>
+                    )}
                     {product.is_bestseller && (
                       <span className="text-[10px] px-2 py-1 rounded-full tracking-wider uppercase font-bold bg-primary/20 text-primary">★ Bestseller</span>
                     )}
@@ -233,6 +251,13 @@ const Products = () => {
                       product.status === "coming_soon" ? "bg-primary/20 text-primary" :
                       "bg-muted text-muted-foreground"
                     }`}>{product.status.replace("_", " ")}</span>
+                    <button
+                      onClick={() => toggleFeatured.mutate({ id: product.id, current: product.is_featured })}
+                      className={`p-2 transition-colors ${product.is_featured ? "text-primary hover:text-primary/60" : "text-foreground/30 hover:text-primary"}`}
+                      title={product.is_featured ? "Remove from Featured" : "Mark as Featured"}
+                    >
+                      <Crown className="w-4 h-4" />
+                    </button>
                     <button
                       onClick={() => toggleBestseller.mutate({ id: product.id, current: product.is_bestseller })}
                       className={`p-2 transition-colors ${product.is_bestseller ? "text-primary hover:text-primary/60" : "text-foreground/30 hover:text-primary"}`}

@@ -145,6 +145,7 @@ export type Database = {
           id: string
           image_url: string | null
           is_bestseller: boolean
+          is_featured: boolean
           name: string
           price: number
           status: Database["public"]["Enums"]["product_status"]
@@ -159,6 +160,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           is_bestseller?: boolean
+          is_featured?: boolean
           name: string
           price?: number
           status?: Database["public"]["Enums"]["product_status"]
@@ -173,6 +175,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           is_bestseller?: boolean
+          is_featured?: boolean
           name?: string
           price?: number
           status?: Database["public"]["Enums"]["product_status"]
