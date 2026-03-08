@@ -210,11 +210,21 @@ const Products = () => {
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
+                    {product.is_bestseller && (
+                      <span className="text-[10px] px-2 py-1 rounded-full tracking-wider uppercase font-bold bg-primary/20 text-primary">★ Bestseller</span>
+                    )}
                     <span className={`text-[10px] px-2 py-1 rounded-full tracking-wider uppercase font-bold ${
                       product.status === "in_stock" ? "bg-accent/20 text-accent-foreground" :
                       product.status === "coming_soon" ? "bg-primary/20 text-primary" :
                       "bg-muted text-muted-foreground"
                     }`}>{product.status.replace("_", " ")}</span>
+                    <button
+                      onClick={() => toggleBestseller.mutate({ id: product.id, current: product.is_bestseller })}
+                      className={`p-2 transition-colors ${product.is_bestseller ? "text-primary hover:text-primary/60" : "text-foreground/30 hover:text-primary"}`}
+                      title={product.is_bestseller ? "Remove from Bestsellers" : "Mark as Bestseller"}
+                    >
+                      <Star className="w-4 h-4" />
+                    </button>
                     <button onClick={() => startEdit(product)} className="p-2 text-foreground/50 hover:text-primary transition-colors">
                       <Pencil className="w-4 h-4" />
                     </button>
