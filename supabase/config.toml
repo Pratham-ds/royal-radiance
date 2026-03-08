@@ -2,3 +2,6 @@ project_id = "xxksujzttjnykpavtkau"
 
 [functions.setup-admin]
 verify_jwt = false
+
+[functions.instamojo-payment]
+verify_jwt = false

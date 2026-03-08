@@ -8,6 +8,7 @@ import { ArrowLeft, MapPin, Phone, CreditCard, Banknote, Smartphone, ShoppingBag
 import { useCheckBirthday } from "@/hooks/useBirthdayCoupons";
 
 const paymentMethods = [
+  { id: "instamojo", label: "Pay Online", icon: CreditCard, description: "Pay securely via UPI, Cards, Net Banking" },
   { id: "cod", label: "Cash on Delivery", icon: Banknote, description: "Pay when your order arrives" },
 ];
 
@@ -25,7 +26,7 @@ const Checkout = () => {
     city: "",
     state: "",
     pincode: "",
-    paymentMethod: "cod",
+    paymentMethod: "instamojo",
   });
 
   const shippingCharge = subtotal >= 800 ? 0 : 79;
@@ -55,15 +56,45 @@ const Checkout = () => {
     setSubmitting(true);
     try {
       const shippingAddress = `${form.address}, ${form.city}, ${form.state} - ${form.pincode}`;
-      const { error } = await supabase.from("orders").insert({
-        user_id: user.id,
+      const orderData = {
         customer_name: form.fullName,
         customer_email: form.email || user.email || "",
         phone: form.phone,
         shipping_address: shippingAddress,
-        payment_method: form.paymentMethod,
         items: items.map((i) => ({ name: i.name, price: i.price, quantity: i.quantity })),
         total,
+      };
+
+      if (form.paymentMethod === "instamojo") {
+        // Online payment via Instamojo
+        const redirectUrl = `${window.location.origin}/payment-callback`;
+        const { data, error } = await supabase.functions.invoke("instamojo-payment", {
+          body: {
+            action: "create_payment",
+            amount: total,
+            purpose: "Order Payment - Regal Adornments",
+            buyer_name: form.fullName,
+            email: form.email || user.email || "",
+            phone: form.phone,
+            redirect_url: redirectUrl,
+            order_data: orderData,
+          },
+        });
+
+        if (error || !data?.success) {
+          throw new Error(data?.error || "Payment initiation failed");
+        }
+
+        // Redirect to Instamojo payment page
+        window.location.href = data.payment_url;
+        return;
+      }
+
+      // COD flow
+      const { error } = await supabase.from("orders").insert({
+        user_id: user.id,
+        ...orderData,
+        payment_method: "cod",
         status: "pending" as const,
       });
       if (error) throw error;

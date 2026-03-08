@@ -26,6 +26,7 @@ import Contact from "./pages/Contact";
 import ContactMessages from "./pages/admin/ContactMessages";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import RefundPolicy from "./pages/RefundPolicy";
+import PaymentCallback from "./pages/PaymentCallback";
 
 const queryClient = new QueryClient();
 
@@ -64,6 +65,7 @@ const App = () => (
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/terms" element={<TermsAndConditions />} />
                     <Route path="/refund-policy" element={<RefundPolicy />} />
+                    <Route path="/payment-callback" element={<PaymentCallback />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </>
