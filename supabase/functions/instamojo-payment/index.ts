@@ -18,6 +18,7 @@ Deno.serve(async (req) => {
   const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
   if (!INSTAMOJO_API_KEY || !INSTAMOJO_AUTH_TOKEN) {
+    console.error('Missing secrets. API_KEY exists:', !!INSTAMOJO_API_KEY, 'AUTH_TOKEN exists:', !!INSTAMOJO_AUTH_TOKEN);
     return new Response(JSON.stringify({ error: 'Instamojo credentials not configured' }), {
       status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
@@ -37,17 +38,17 @@ Deno.serve(async (req) => {
         });
       }
 
+      const token = authHeader.replace('Bearer ', '');
       const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
-      const anonClient = createClient(SUPABASE_URL, Deno.env.get('SUPABASE_ANON_KEY')!, {
-        global: { headers: { Authorization: authHeader } },
-      });
-      const { data: claimsData, error: claimsError } = await anonClient.auth.getClaims(authHeader.replace('Bearer ', ''));
-      if (claimsError || !claimsData?.claims) {
+      
+      // Verify user via getUser
+      const { data: { user }, error: userError } = await supabase.auth.getUser(token);
+      if (userError || !user) {
         return new Response(JSON.stringify({ error: 'Unauthorized' }), {
           status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         });
       }
-      const userId = claimsData.claims.sub;
+      const userId = user.id;
 
       // Create Instamojo payment request
       const formData = new URLSearchParams();
@@ -77,7 +78,7 @@ Deno.serve(async (req) => {
         });
       }
 
-      // Store order as pending with payment_request_id
+      // Store order as pending
       const { error: orderError } = await supabase.from('orders').insert({
         user_id: userId,
         customer_name: order_data.customer_name,
