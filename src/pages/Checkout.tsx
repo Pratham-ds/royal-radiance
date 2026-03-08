@@ -8,6 +8,7 @@ import { ArrowLeft, MapPin, Phone, CreditCard, Banknote, Smartphone, ShoppingBag
 import { useCheckBirthday } from "@/hooks/useBirthdayCoupons";
 
 const paymentMethods = [
+  { id: "instamojo", label: "Pay Online", icon: CreditCard, description: "Pay securely via UPI, Cards, Net Banking" },
   { id: "cod", label: "Cash on Delivery", icon: Banknote, description: "Pay when your order arrives" },
 ];
 
