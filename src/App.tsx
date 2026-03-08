@@ -65,6 +65,7 @@ const App = () => (
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/terms" element={<TermsAndConditions />} />
                     <Route path="/refund-policy" element={<RefundPolicy />} />
+                    <Route path="/payment-callback" element={<PaymentCallback />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </>
