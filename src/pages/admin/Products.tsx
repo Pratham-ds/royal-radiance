@@ -84,6 +84,21 @@ const Products = () => {
     },
   });
 
+  const toggleBestseller = useMutation({
+    mutationFn: async ({ id, current }: { id: string; current: boolean }) => {
+      const { error } = await supabase.from("products").update({ is_bestseller: !current } as any).eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-products"] });
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      toast({ title: "Bestseller status updated" });
+    },
+    onError: (e: any) => {
+      toast({ title: "Error", description: mapDatabaseError(e), variant: "destructive" });
+    },
+  });
+
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase.from("products").delete().eq("id", id);
