@@ -24,6 +24,8 @@ import Testimonials from "./pages/admin/Testimonials";
 import AdminSubscriptions from "./pages/admin/Subscriptions";
 import Contact from "./pages/Contact";
 import ContactMessages from "./pages/admin/ContactMessages";
+import TermsAndConditions from "./pages/TermsAndConditions";
+import RefundPolicy from "./pages/RefundPolicy";
 
 const queryClient = new QueryClient();
 
