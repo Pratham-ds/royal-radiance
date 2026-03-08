@@ -3,6 +3,7 @@ import { ShoppingBag, Minus, Plus, AlertTriangle, Star } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useProducts } from "@/hooks/useProducts";
 import CountdownTimer from "./CountdownTimer";
+import Autoplay from "embla-carousel-autoplay";
 import {
   Carousel,
   CarouselContent,
