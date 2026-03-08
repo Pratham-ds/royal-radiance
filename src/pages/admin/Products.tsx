@@ -240,6 +240,9 @@ const Products = () => {
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
+                    {product.is_featured && (
+                      <span className="text-[10px] px-2 py-1 rounded-full tracking-wider uppercase font-bold bg-primary/30 text-primary">♛ Featured</span>
+                    )}
                     {product.is_bestseller && (
                       <span className="text-[10px] px-2 py-1 rounded-full tracking-wider uppercase font-bold bg-primary/20 text-primary">★ Bestseller</span>
                     )}
@@ -248,6 +251,13 @@ const Products = () => {
                       product.status === "coming_soon" ? "bg-primary/20 text-primary" :
                       "bg-muted text-muted-foreground"
                     }`}>{product.status.replace("_", " ")}</span>
+                    <button
+                      onClick={() => toggleFeatured.mutate({ id: product.id, current: product.is_featured })}
+                      className={`p-2 transition-colors ${product.is_featured ? "text-primary hover:text-primary/60" : "text-foreground/30 hover:text-primary"}`}
+                      title={product.is_featured ? "Remove from Featured" : "Mark as Featured"}
+                    >
+                      <Crown className="w-4 h-4" />
+                    </button>
                     <button
                       onClick={() => toggleBestseller.mutate({ id: product.id, current: product.is_bestseller })}
                       className={`p-2 transition-colors ${product.is_bestseller ? "text-primary hover:text-primary/60" : "text-foreground/30 hover:text-primary"}`}

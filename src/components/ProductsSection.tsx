@@ -25,7 +25,7 @@ const ProductsSection = () => {
   const { addToCart } = useCart();
   const { data: products, isLoading } = useProducts();
 
-  const featuredProduct = products?.find((p) => p.status === "in_stock");
+  const featuredProduct = products?.find((p: any) => p.is_featured);
   const otherProducts = products?.filter((p) => p.id !== featuredProduct?.id) ?? [];
 
   const getImage = (product: {name: string;image_url: string | null;}) =>
