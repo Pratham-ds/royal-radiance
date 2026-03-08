@@ -64,6 +64,25 @@ const Login = () => {
     setLoading(false);
   };
 
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setErrors({ email: "Enter a valid email" });
+      return;
+    }
+    setForgotLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    setForgotLoading(false);
+    if (error) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } else {
+      toast({ title: "Check your email", description: "We've sent you a password reset link." });
+      setForgotMode(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center px-6 luxury-gradient">
       <div className="w-full max-w-md">
