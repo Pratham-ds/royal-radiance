@@ -118,7 +118,7 @@ const Login = () => {
                   <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="w-3.5 h-3.5 rounded-sm border-border accent-primary" />
                   <span className="text-xs text-muted-foreground">Remember me</span>
                 </label>
-                <a href="#" className="text-xs text-primary hover:text-primary/80 transition-colors">Forgot Password?</a>
+                <button type="button" onClick={() => setForgotMode(true)} className="text-xs text-primary hover:text-primary/80 transition-colors">Forgot Password?</button>
               </div>
             }
 
