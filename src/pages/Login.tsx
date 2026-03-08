@@ -13,6 +13,8 @@ const Login = () => {
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [forgotMode, setForgotMode] = useState(false);
+  const [forgotLoading, setForgotLoading] = useState(false);
   const [errors, setErrors] = useState<{email?: string;password?: string;fullName?: string;}>({});
   const [loading, setLoading] = useState(false);
   const { signIn, signUp } = useAuth();
@@ -62,6 +64,25 @@ const Login = () => {
     setLoading(false);
   };
 
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setErrors({ email: "Enter a valid email" });
+      return;
+    }
+    setForgotLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    setForgotLoading(false);
+    if (error) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } else {
+      toast({ title: "Check your email", description: "We've sent you a password reset link." });
+      setForgotMode(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center px-6 luxury-gradient">
       <div className="w-full max-w-md">
@@ -75,64 +96,92 @@ const Login = () => {
         </div>
 
         <div className="glass-card rounded-lg p-8 md:p-10 gold-glow">
-          <h2 className="font-heading text-2xl font-bold text-foreground mb-6 text-center">
-            {mode === "login" ? "Sign In" : "Create Account"}
-          </h2>
-
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {mode === "signup" &&
+          {forgotMode ? (
             <>
-              <div>
-                <label className="block text-xs font-body tracking-wider uppercase text-foreground/60 mb-2">Full Name</label>
-                <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} className="w-full bg-muted/50 border border-border/50 rounded-sm px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all" placeholder="Your Name" />
-                {errors.fullName && <p className="text-xs text-destructive mt-1">{errors.fullName}</p>}
-              </div>
-              <div>
-                <label className="block text-xs font-body tracking-wider uppercase text-foreground/60 mb-2">Date of Birth</label>
-                <input type="date" value={dateOfBirth} onChange={(e) => setDateOfBirth(e.target.value)} className="w-full bg-muted/50 border border-border/50 rounded-sm px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all" />
-                {(errors as any).dob && <p className="text-xs text-destructive mt-1">{(errors as any).dob}</p>}
-              </div>
-            </>
-            }
-
-            <div>
-              <label className="block text-xs font-body tracking-wider uppercase text-foreground/60 mb-2">Email Address</label>
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full bg-muted/50 border border-border/50 rounded-sm px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all" placeholder="your@email.com" />
-              {errors.email && <p className="text-xs text-destructive mt-1">{errors.email}</p>}
-            </div>
-
-            <div>
-              <label className="block text-xs font-body tracking-wider uppercase text-foreground/60 mb-2">Password</label>
-              <div className="relative">
-                <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} className="w-full bg-muted/50 border border-border/50 rounded-sm px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all pr-10" placeholder="••••••••" />
-                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              <h2 className="font-heading text-2xl font-bold text-foreground mb-6 text-center">
+                Reset Password
+              </h2>
+              <p className="text-sm text-muted-foreground text-center mb-6">
+                Enter your email and we'll send you a reset link.
+              </p>
+              <form onSubmit={handleForgotPassword} className="space-y-5">
+                <div>
+                  <label className="block text-xs font-body tracking-wider uppercase text-foreground/60 mb-2">Email Address</label>
+                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full bg-muted/50 border border-border/50 rounded-sm px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all" placeholder="your@email.com" />
+                  {errors.email && <p className="text-xs text-destructive mt-1">{errors.email}</p>}
+                </div>
+                <button type="submit" disabled={forgotLoading} className="btn-luxury w-full py-3.5 rounded-sm text-sm tracking-[0.2em] gold-glow disabled:opacity-50">
+                  {forgotLoading ? "Sending..." : "Send Reset Link"}
                 </button>
-              </div>
-              {errors.password && <p className="text-xs text-destructive mt-1">{errors.password}</p>}
-            </div>
+              </form>
+              <p className="text-center text-xs text-muted-foreground mt-6">
+                <button onClick={() => { setForgotMode(false); setErrors({}); }} className="text-primary hover:text-primary/80 transition-colors font-semibold">
+                  Back to Sign In
+                </button>
+              </p>
+            </>
+          ) : (
+            <>
+              <h2 className="font-heading text-2xl font-bold text-foreground mb-6 text-center">
+                {mode === "login" ? "Sign In" : "Create Account"}
+              </h2>
 
-            {mode === "login" &&
-            <div className="flex items-center justify-between">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="w-3.5 h-3.5 rounded-sm border-border accent-primary" />
-                  <span className="text-xs text-muted-foreground">Remember me</span>
-                </label>
-                <a href="#" className="text-xs text-primary hover:text-primary/80 transition-colors">Forgot Password?</a>
-              </div>
-            }
+              <form onSubmit={handleSubmit} className="space-y-5">
+                {mode === "signup" &&
+                <>
+                  <div>
+                    <label className="block text-xs font-body tracking-wider uppercase text-foreground/60 mb-2">Full Name</label>
+                    <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} className="w-full bg-muted/50 border border-border/50 rounded-sm px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all" placeholder="Your Name" />
+                    {errors.fullName && <p className="text-xs text-destructive mt-1">{errors.fullName}</p>}
+                  </div>
+                  <div>
+                    <label className="block text-xs font-body tracking-wider uppercase text-foreground/60 mb-2">Date of Birth</label>
+                    <input type="date" value={dateOfBirth} onChange={(e) => setDateOfBirth(e.target.value)} className="w-full bg-muted/50 border border-border/50 rounded-sm px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all" />
+                    {(errors as any).dob && <p className="text-xs text-destructive mt-1">{(errors as any).dob}</p>}
+                  </div>
+                </>
+                }
 
-            <button type="submit" disabled={loading} className="btn-luxury w-full py-3.5 rounded-sm text-sm tracking-[0.2em] gold-glow disabled:opacity-50">
-              {loading ? "Please wait..." : mode === "login" ? "Sign In" : "Create Account"}
-            </button>
-          </form>
+                <div>
+                  <label className="block text-xs font-body tracking-wider uppercase text-foreground/60 mb-2">Email Address</label>
+                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full bg-muted/50 border border-border/50 rounded-sm px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all" placeholder="your@email.com" />
+                  {errors.email && <p className="text-xs text-destructive mt-1">{errors.email}</p>}
+                </div>
 
-          <p className="text-center text-xs text-muted-foreground mt-6">
-            {mode === "login" ? "Don't have an account?" : "Already have an account?"}{" "}
-            <button onClick={() => {setMode(mode === "login" ? "signup" : "login");setErrors({});}} className="text-primary hover:text-primary/80 transition-colors font-semibold">
-              {mode === "login" ? "Create Account" : "Sign In"}
-            </button>
-          </p>
+                <div>
+                  <label className="block text-xs font-body tracking-wider uppercase text-foreground/60 mb-2">Password</label>
+                  <div className="relative">
+                    <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} className="w-full bg-muted/50 border border-border/50 rounded-sm px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all pr-10" placeholder="••••••••" />
+                    <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">
+                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
+                  {errors.password && <p className="text-xs text-destructive mt-1">{errors.password}</p>}
+                </div>
+
+                {mode === "login" &&
+                <div className="flex items-center justify-between">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="w-3.5 h-3.5 rounded-sm border-border accent-primary" />
+                      <span className="text-xs text-muted-foreground">Remember me</span>
+                    </label>
+                    <button type="button" onClick={() => setForgotMode(true)} className="text-xs text-primary hover:text-primary/80 transition-colors">Forgot Password?</button>
+                  </div>
+                }
+
+                <button type="submit" disabled={loading} className="btn-luxury w-full py-3.5 rounded-sm text-sm tracking-[0.2em] gold-glow disabled:opacity-50">
+                  {loading ? "Please wait..." : mode === "login" ? "Sign In" : "Create Account"}
+                </button>
+              </form>
+
+              <p className="text-center text-xs text-muted-foreground mt-6">
+                {mode === "login" ? "Don't have an account?" : "Already have an account?"}{" "}
+                <button onClick={() => {setMode(mode === "login" ? "signup" : "login");setErrors({});}} className="text-primary hover:text-primary/80 transition-colors font-semibold">
+                  {mode === "login" ? "Create Account" : "Sign In"}
+                </button>
+              </p>
+            </>
+          )}
         </div>
       </div>
     </div>);
