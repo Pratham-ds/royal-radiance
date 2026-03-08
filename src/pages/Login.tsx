@@ -182,7 +182,6 @@ const Login = () => {
               </p>
             </>
           )}
-          </p>
         </div>
       </div>
     </div>);
