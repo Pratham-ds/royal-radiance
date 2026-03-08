@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Star, ShoppingBag, Minus, Plus, AlertTriangle } from "lucide-react";
+import { Star, ShoppingBag, Minus, Plus, AlertTriangle, MessageSquare } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import CountdownTimer from "./CountdownTimer";
 import { useProducts } from "@/hooks/useProducts";
 import SubscribeBadge from "./SubscribeBadge";
+import ProductReviewsDialog from "./ProductReviewsDialog";
 
 import vitaminCImg from "@/assets/vitamin-c-serum.jpg";
 import retinolImg from "@/assets/retinol-serum.jpg";
